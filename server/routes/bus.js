@@ -1,7 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const busController = require("../controllers/busController");
-const { protect, authorize } = require("../middleware/auth");
+import { Router } from "express";
+const router = Router();
+import { updateBusLocation, getBusLocation, getAllBuses } from "../controllers/busController";
+import { protect, authorize } from "../middleware/auth";
 
 // All bus routes require authentication
 router.use(protect);
@@ -10,17 +10,17 @@ router.use(protect);
 router.put(
   "/location",
   authorize("principal", "teacher"),
-  busController.updateBusLocation
+  updateBusLocation
 );
 
 // Get specific bus location
 router.get(
   "/:busId",
   authorize("principal", "teacher", "parent", "student"),
-  busController.getBusLocation
+  getBusLocation
 );
 
 // Get all buses
-router.get("/", authorize("principal", "teacher"), busController.getAllBuses);
+router.get("/", authorize("principal", "teacher"), getAllBuses);
 
-module.exports = router;
+export default router;

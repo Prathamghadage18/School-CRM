@@ -1,8 +1,8 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+import { verify } from "jsonwebtoken";
+import { findById } from "../models/User";
 
 // Protect routes - verify JWT token
-exports.protect = async (req, res, next) => {
+export async function protect(req, res, next) {
   try {
     let token;
 
@@ -20,8 +20,8 @@ exports.protect = async (req, res, next) => {
     }
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id);
+      const decoded = verify(token, process.env.JWT_SECRET);
+      req.user = await findById(decoded.id);
       next();
     } catch (error) {
       return res
@@ -32,10 +32,10 @@ exports.protect = async (req, res, next) => {
     console.error("Auth middleware error:", error);
     res.status(500).json({ message: "Server error" });
   }
-};
+}
 
 // Grant access to specific roles
-exports.authorize = (...roles) => {
+export function authorize(...roles) {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return res.status(403).json({
@@ -44,4 +44,4 @@ exports.authorize = (...roles) => {
     }
     next();
   };
-};
+}

@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const busAssignmentSchema = new mongoose.Schema(
+const busAssignmentSchema = new Schema(
   {
     student: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Student",
       required: true,
     },
@@ -53,4 +53,4 @@ busAssignmentSchema.methods.updateLocation = function (lat, lng) {
   return this.save();
 };
 
-module.exports = mongoose.model("BusAssignment", busAssignmentSchema);
+export default model("BusAssignment", busAssignmentSchema);
