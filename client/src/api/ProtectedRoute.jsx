@@ -7,6 +7,7 @@ import { Navigate, Outlet } from "react-router-dom";
 const ProtectedRoute = ({ allowedRoles = [] }) => {
   // const userRole = useSelector(selectCurrentUserRole);
     const userRole = 'teacher';
+    
 
 
   return allowedRoles.includes(userRole) ? <Outlet /> : <Navigate to="/" />;
