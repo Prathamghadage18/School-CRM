@@ -4,7 +4,7 @@ const PrincipleHome = () => {
   return (
     <div className="space-y-6  lg:w-10/12 m-auto">
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-white rounded-xl shadow p-6 text-center">
           <h3 className="text-sm text-gray-500">Total Students</h3>
           <p className="text-2xl font-bold text-blue-600">1,247</p>

@@ -4,7 +4,7 @@ const Analytics = () => {
   return (
     <div className="space-y-6 lg:w-10/12 m-auto">
       {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-blue-500 text-white rounded-xl p-6 shadow">
           <h3 className="text-sm">Average Attendance</h3>
           <p className="text-2xl font-bold">94.2%</p>

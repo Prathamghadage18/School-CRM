@@ -12,7 +12,7 @@ const StudentGrades = () => {
       <h2 className="text-lg font-bold flex items-center gap-2">📑 My Grades</h2>
 
       {/* Overall Grades */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
         <div className="bg-green-50 p-6 rounded-lg text-center">
           <p className="text-3xl font-bold text-green-600">A-</p>
           <p className="text-gray-600">Overall Grade</p>
