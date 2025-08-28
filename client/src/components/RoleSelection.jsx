@@ -38,8 +38,10 @@ const SignupRoleSelection = ({ onSelect }) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+     localStorage.setItem('role', selectedRole);
     if (selectedRole) {
-      navigate(`/${selectedRole}`);
+      navigate(`/${selectedRole+"-dashboard"}`);
+      // Store selected role in localStorage
     }
   };
 
