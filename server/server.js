@@ -17,6 +17,7 @@ import busRoutes from "./routes/bus";
 import materialRoutes from "./routes/materials";
 import attendanceRoutes from "./routes/attendance";
 import gradeRoutes from "./routes/grades";
+import studentRoutes from "./routes/students";
 // Import other routes...
 
 // Import auth controller for principal initialization
@@ -88,6 +89,7 @@ app.use("/api/bus", busRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/grades", gradeRoutes);
+app.use("/api/students", studentRoutes);
 // Mount other routes...
 
 // Basic route for testing

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const studyMaterialSchema = new mongoose.Schema(
+const studyMaterialSchema = new Schema(
   {
     title: {
       type: String,
@@ -12,7 +12,7 @@ const studyMaterialSchema = new mongoose.Schema(
       required: true,
     },
     class: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
       required: true,
     },
@@ -21,7 +21,7 @@ const studyMaterialSchema = new mongoose.Schema(
       required: true,
     },
     uploadedBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Teacher",
       required: true,
     },
@@ -31,4 +31,4 @@ const studyMaterialSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("StudyMaterial", studyMaterialSchema);
+export default model("StudyMaterial", studyMaterialSchema);

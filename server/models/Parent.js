@@ -9,19 +9,21 @@ const parentSchema = new Schema(
     },
     relation: {
       type: String,
-      enum: ["father", "mother", "guardian"],
       required: true,
+      enum: ["Father", "Mother", "Guardian", "Other"],
     },
-    occupation: {
-      type: String,
-    },
+    occupation: String,
     phone: {
       type: String,
       required: true,
     },
-    alternatePhone: {
-      type: String,
-    },
+    alternatePhone: String,
+    children: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+      },
+    ],
   },
   {
     timestamps: true,

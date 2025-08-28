@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const teacherSchema = new mongoose.Schema(
+const teacherSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -20,7 +20,7 @@ const teacherSchema = new mongoose.Schema(
     ],
     classes: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Class",
       },
     ],
@@ -33,4 +33,4 @@ const teacherSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Teacher", teacherSchema);
+export default model("Teacher", teacherSchema);

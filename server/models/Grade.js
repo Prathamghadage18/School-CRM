@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const gradeSchema = new mongoose.Schema(
+const gradeSchema = new Schema(
   {
     student: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Student",
       required: true,
     },
@@ -26,12 +26,12 @@ const gradeSchema = new mongoose.Schema(
       required: true,
     },
     enteredBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Teacher",
       required: true,
     },
     class: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
       required: true,
     },
@@ -47,4 +47,4 @@ gradeSchema.index(
   { unique: true }
 );
 
-module.exports = mongoose.model("Grade", gradeSchema);
+export default model("Grade", gradeSchema);

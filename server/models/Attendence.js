@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const attendanceSchema = new mongoose.Schema(
+const attendanceSchema = new Schema(
   {
     student: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Student",
       required: true,
     },
@@ -18,12 +18,12 @@ const attendanceSchema = new mongoose.Schema(
       required: true,
     },
     markedBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Teacher",
       required: true,
     },
     class: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Class",
       required: true,
     },
@@ -36,4 +36,4 @@ const attendanceSchema = new mongoose.Schema(
 // Compound index to prevent duplicate attendance records
 attendanceSchema.index({ student: 1, date: 1 }, { unique: true });
 
-module.exports = mongoose.model("Attendance", attendanceSchema);
+export default model("Attendance", attendanceSchema);

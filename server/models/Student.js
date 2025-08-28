@@ -21,17 +21,9 @@ const studentSchema = new Schema(
       type: String,
       required: true,
     },
-    dateOfBirth: {
-      type: Date,
-      required: true,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-    },
+    dateOfBirth: Date,
+    address: String,
+    phone: String,
     busAssignment: {
       type: Schema.Types.ObjectId,
       ref: "BusAssignment",
