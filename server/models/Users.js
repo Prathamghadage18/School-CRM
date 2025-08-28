@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
-import { hash, compare } from "bcryptjs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,7 +16,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       minlength: 6,
     },
     role: {
@@ -24,9 +23,30 @@ const userSchema = new Schema(
       enum: ["principal", "teacher", "student", "parent"],
       required: true,
     },
+    passkey: {
+      type: String,
+      sparse: true, // Allows null values while still enforcing uniqueness for non-null values
+    },
     isActive: {
       type: Boolean,
       default: true,
+    },
+    // For students and parents
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student",
+    },
+    // For parents to link to their children
+    children: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+      },
+    ],
+    // For teachers
+    teacherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Teacher",
     },
   },
   {
@@ -37,13 +57,13 @@ const userSchema = new Schema(
 // Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await hash(this.password, 12);
+  this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
 // Compare password method
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await compare(candidatePassword, this.password);
+  return await bcrypt.compare(candidatePassword, this.password);
 };
 
-export default model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

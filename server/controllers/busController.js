@@ -61,3 +61,54 @@ export async function getAllBuses(req, res) {
     res.status(500).json({ message: "Server error" });
   }
 }
+
+/*
+├── server/                 # Node.js/Express backend
+│   ├── config/            # Configuration files
+│   │   ├── db.js
+│   │   ├── multer.js      # File upload config
+│   │   
+│   ├── controllers/       # Route controllers
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   ├── classController.js
+│   │   ├── materialController.js
+│   │   ├── attendanceController.js
+│   │   ├── gradeController.js
+│   │   ├── announcementController.js
+│   │   └── busController.js
+│   ├── middleware/        # Custom middleware
+│   │   ├── auth.js        # Authentication middleware
+│   │   ├── rbac.js        # Role-based access control
+│   │   ├── validation.js  # Input validation
+│   │   └── upload.js      # File upload handling
+│   ├── models/            # MongoDB models
+│   │   ├── User.js
+│   │   ├── Student.js
+│   │   ├── Parent.js
+│   │   ├── Teacher.js
+│   │   ├── Class.js
+│   │   ├── StudyMaterial.js
+│   │   ├── Attendance.js
+│   │   ├── Grade.js
+│   │   ├── Announcement.js
+│   │   └── BusAssignment.js
+│   ├── routes/            # API routes
+│   │   ├── auth.js
+│   │   ├── users.js
+│   │   ├── classes.js
+│   │   ├── materials.js
+│   │   ├── attendance.js
+│   │   ├── grades.js
+│   │   ├── announcements.js
+│   │   └── bus.js
+│   ├── utils/             # Utility functions
+│   │   ├── helpers.js
+│   │   ├── notifications.js # Email/SMS notifications
+│   │   └── busSimulator.js  # Bus location simulation
+│   ├── .env
+│   ├── package.json
+│   └── server.js          # Main server file
+
+**According to this give me complete backend for the Teacher module and do not use cloudinary for files uploads instead use the multer with uploads directory. You have already files in previous response consider it.**
+*/

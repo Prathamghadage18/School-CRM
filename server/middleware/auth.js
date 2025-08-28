@@ -21,7 +21,26 @@ export async function protect(req, res, next) {
 
     try {
       const decoded = verify(token, process.env.JWT_SECRET);
-      req.user = await findById(decoded.id);
+
+      // Get user from token and populate relevant fields based on role
+      let userQuery = findById(decoded.id);
+
+      if (decoded.role === "teacher") {
+        userQuery = userQuery.populate("teacherId");
+      } else if (decoded.role === "student") {
+        userQuery = userQuery.populate("studentId");
+      } else if (decoded.role === "parent") {
+        userQuery = userQuery.populate("parentId");
+      }
+
+      req.user = await userQuery;
+
+      if (!req.user) {
+        return res
+          .status(401)
+          .json({ message: "Not authorized to access this route" });
+      }
+
       next();
     } catch (error) {
       return res

@@ -1,27 +1,33 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const http = require("http");
-const socketIo = require("socket.io");
-const cors = require("cors");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
-const dotenv = require("dotenv");
+import express, { json, urlencoded } from "express";
+import { connect } from "mongoose";
+import { createServer } from "http";
+import socketIo from "socket.io";
+import cors from "cors";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { config } from "dotenv";
 
 // Load env vars
-dotenv.config();
+config();
 
 // Import routes
-const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/users");
-const busRoutes = require("./routes/bus");
+import authRoutes from "./routes/auth";
+import userRoutes from "./routes/users";
+import busRoutes from "./routes/bus";
+import materialRoutes from "./routes/materials";
+import attendanceRoutes from "./routes/attendance";
+import gradeRoutes from "./routes/grades";
 // Import other routes...
+
+// Import auth controller for principal initialization
+import { createPrincipal } from "./controllers/authController";
 
 // Initialize express app
 const app = express();
-const server = http.createServer(app);
+const server = createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -37,13 +43,13 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Body parser middleware
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(json({ limit: "10mb" }));
+app.use(urlencoded({ extended: true }));
 
 // CORS middleware
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
   })
 );
@@ -79,6 +85,9 @@ app.use((req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bus", busRoutes);
+app.use("/api/materials", materialRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/grades", gradeRoutes);
 // Mount other routes...
 
 // Basic route for testing
@@ -93,12 +102,16 @@ app.use((err, req, res, next) => {
 });
 
 // Connect to MongoDB
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(async () => {
+    console.log("MongoDB connected successfully");
+
+    // Create principal account if it doesn't exist
+    await createPrincipal();
   })
-  .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Start server
@@ -107,4 +120,4 @@ server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = { app, io };
+export default { app, io };
