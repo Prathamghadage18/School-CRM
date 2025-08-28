@@ -1,4 +1,4 @@
-import { findById, find } from "../models/BusAssignment";
+import { findById, find } from "../models/BusAssignment.js";
 
 // Update bus location
 export async function updateBusLocation(req, res) {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import { updateBusLocation, getBusLocation, getAllBuses } from "../controllers/busController";
-import { protect, authorize } from "../middleware/auth";
+import { updateBusLocation, getBusLocation, getAllBuses } from "../controllers/busController.js";
+import { protect, authorize } from "../middleware/auth.js";
 
 // All bus routes require authentication
 router.use(protect);

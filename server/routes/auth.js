@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import { login, registerTeacher, registerStudent, registerParent, changePassword, resetPasskey } from "../controllers/authController";
-import { protect, authorize } from "../middleware/auth";
+import { login, registerTeacher, registerStudent, registerParent, changePassword, resetPasskey } from "../controllers/authController.js";
+import { protect, authorize } from "../middleware/auth.js";
 
 // Public routes
 router.post("/login", login);

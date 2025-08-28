@@ -4,8 +4,8 @@ import {
   enterGrades,
   getGradesByClass,
   updateGrade,
-} from "../controllers/gradeController";
-import { protect, authorize } from "../middleware/auth";
+} from "../controllers/gradeController.js";
+import { protect, authorize } from "../middleware/auth.js";
 
 router.post("/enter", protect, authorize("teacher"), enterGrades);
 

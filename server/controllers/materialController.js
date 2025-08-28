@@ -1,6 +1,6 @@
-import StudyMaterial from "../models/StudyMaterial";
-import Class from "../models/Class";
-import { sendNotification } from "../utils/notifications";
+import StudyMaterial from "../models/StudyMaterial.js";
+import Class from "../models/Class.js";
+import { sendNotification } from "../utils/notifications.js";
 
 // Upload study material
 export const uploadMaterial = async (req, res) => {

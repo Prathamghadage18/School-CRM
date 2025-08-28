@@ -1,14 +1,15 @@
-import { findOne, create, findById } from "../models/User";
-import { findById as _findById, create as _create } from "../models/Teacher";
-import { findById as __findById, create as __create } from "../models/Student";
-import { findById as ___findById, findByIdAndUpdate, create as ___create } from "../models/Parent";
-import { sign } from "jsonwebtoken";
+import { findOne, create, findById } from "../models/Users.js";
+import { findById as _findById, create as _create } from "../models/Teacher.js";
+import { findById as __findById, create as __create } from "../models/Student.js";
+import { findById as ___findById, findByIdAndUpdate, create as ___create } from "../models/Parent.js";
+import jwt from "jsonwebtoken";
+const { sign } = jwt;
 import { v4 as uuidv4 } from "uuid";
 
 // Generate JWT Token
 const generateToken = (id) => {
   return sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,w
+    expiresIn: process.env.JWT_EXPIRE
   });
 };
 

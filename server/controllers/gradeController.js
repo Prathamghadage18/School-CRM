@@ -1,6 +1,6 @@
-import Grade from "../models/Grade";
-import Student from "../models/Student";
-import Class from "../models/Class";
+import Grade from "../models/Grade.js";
+import Student from "../models/Student.js";
+import Class from "../models/Class.js";
 
 // Enter grades for students
 export const enterGrades = async (req, res) => {

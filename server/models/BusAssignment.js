@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+// models/BusAssignment.js
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
 
 const busAssignmentSchema = new Schema(
   {
@@ -12,18 +15,9 @@ const busAssignmentSchema = new Schema(
       required: true,
     },
     currentLocation: {
-      lat: {
-        type: Number,
-        default: 0,
-      },
-      lng: {
-        type: Number,
-        default: 0,
-      },
-      lastUpdated: {
-        type: Date,
-        default: Date.now,
-      },
+      lat: { type: Number, default: 0 },
+      lng: { type: Number, default: 0 },
+      lastUpdated: { type: Date, default: Date.now },
     },
     route: [
       {
@@ -37,20 +31,24 @@ const busAssignmentSchema = new Schema(
       default: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-// Update location method
+// 📍 Update location method
 busAssignmentSchema.methods.updateLocation = function (lat, lng) {
   this.currentLocation = { lat, lng, lastUpdated: new Date() };
   this.route.push({ lat, lng, timestamp: new Date() });
-  // Keep only the last 100 location points to prevent oversized documents
   if (this.route.length > 100) {
     this.route = this.route.slice(-100);
   }
   return this.save();
 };
 
-export default model("BusAssignment", busAssignmentSchema);
+const BusAssignment = model("BusAssignment", busAssignmentSchema);
+
+// ✅ Named exports
+export const findById = (id) => BusAssignment.findById(id);
+export const find = (query) => BusAssignment.find(query);
+
+// ✅ Default export
+export default BusAssignment;

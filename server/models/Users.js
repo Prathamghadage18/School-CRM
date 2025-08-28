@@ -1,7 +1,10 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+// models/Users.js
+import mongoose from "mongoose";
+import { hash, compare } from "bcryptjs";
 
-const userSchema = new mongoose.Schema(
+const { Schema, model } = mongoose;
+
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -25,27 +28,24 @@ const userSchema = new mongoose.Schema(
     },
     passkey: {
       type: String,
-      sparse: true, // Allows null values while still enforcing uniqueness for non-null values
+      sparse: true,
     },
     isActive: {
       type: Boolean,
       default: true,
     },
-    // For students and parents
     studentId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Student",
     },
-    // For parents to link to their children
     children: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Student",
       },
     ],
-    // For teachers
     teacherId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Teacher",
     },
   },
@@ -54,16 +54,24 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password before saving
+// 🔐 Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 12);
+  this.password = await hash(this.password, 12);
   next();
 });
 
-// Compare password method
+// 🔍 Compare password method
 userSchema.methods.comparePassword = async function (candidatePassword) {
-  return await bcrypt.compare(candidatePassword, this.password);
+  return await compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model("User", userSchema);
+const User = model("User", userSchema);
+
+// ✅ Named exports for controller use
+export const findOne = (query) => User.findOne(query);
+export const findById = (id) => User.findById(id);
+export const create = (data) => User.create(data);
+
+// ✅ Default export
+export default User;

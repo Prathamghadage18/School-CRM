@@ -5,10 +5,10 @@ import {
   getStudyMaterials,
   getAttendance,
   getGrades,
-  getAnnouncements,
+//  getAnnouncements,
   getBusLocation,
-} from "../controllers/studentController";
-import { protect, authorize } from "../middleware/auth";
+} from "../controllers/studentController.js";
+import { protect, authorize } from "../middleware/auth.js";
 
 // All routes are protected and only accessible to students
 router.use(protect);
@@ -27,7 +27,7 @@ router.get("/attendance", getAttendance);
 router.get("/grades", getGrades);
 
 // Announcements
-router.get("/announcements", getAnnouncements);
+//router.get("/announcements", getAnnouncements);
 
 // Bus location
 router.get("/bus-location", getBusLocation);

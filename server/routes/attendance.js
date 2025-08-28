@@ -4,8 +4,8 @@ import {
   markAttendance,
   getAttendanceByClass,
   getStudentAttendance,
-} from "../controllers/attendanceController";
-import { protect, authorize } from "../middleware/auth";
+} from "../controllers/attendanceController.js";
+import { protect, authorize } from "../middleware/auth.js";
 
 router.post("/mark", protect, authorize("teacher"), markAttendance);
 

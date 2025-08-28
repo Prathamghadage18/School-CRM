@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+// models/Parent.js
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
 
 const parentSchema = new Schema(
   {
@@ -30,4 +33,13 @@ const parentSchema = new Schema(
   }
 );
 
-export default model("Parent", parentSchema);
+const Parent = model("Parent", parentSchema);
+
+// ✅ Named exports for controller use
+export const findById = (id) => Parent.findById(id);
+export const findByIdAndUpdate = (id, update) =>
+  Parent.findByIdAndUpdate(id, update, { new: true });
+export const create = (data) => Parent.create(data);
+
+// ✅ Default export for general use
+export default Parent;

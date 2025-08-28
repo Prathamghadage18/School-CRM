@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+// models/Student.js
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
 
 const studentSchema = new Schema(
   {
@@ -34,4 +37,11 @@ const studentSchema = new Schema(
   }
 );
 
-export default model("Student", studentSchema);
+const Student = model("Student", studentSchema);
+
+// ✅ Named exports
+export const findById = (id) => Student.findById(id);
+export const create = (data) => Student.create(data);
+
+// ✅ Default export
+export default Student;

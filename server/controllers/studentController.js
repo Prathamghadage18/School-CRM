@@ -1,10 +1,10 @@
-import Student from "../models/Student";
-import StudyMaterial from "../models/StudyMaterial";
-import Attendance from "../models/Attendance";
-import Grade from "../models/Grade";
-import Announcement from "../models/Announcement";
-import Class from "../models/Class";
-import BusAssignment from "../models/BusAssignment";
+import Student from "../models/Student.js";
+import StudyMaterial from "../models/StudyMaterial.js";
+import Attendance from "../models/Attendance.js";
+import Grade from "../models/Grade.js";
+//import Announcement from "../models/Announcement.js";
+import Class from "../models/Class.js";
+import BusAssignment from "../models/BusAssignment.js";
 
 // Get student profile
 export const getStudentProfile = async (req, res) => {
@@ -212,57 +212,57 @@ export const getGrades = async (req, res) => {
 };
 
 // Get announcements for student's class
-export const getAnnouncements = async (req, res) => {
-  try {
-    const student = await Student.findOne({ user: req.user._id });
+// export const getAnnouncements = async (req, res) => {
+//   try {
+//     const student = await Student.findOne({ user: req.user._id });
 
-    if (!student) {
-      return res.status(404).json({
-        success: false,
-        message: "Student not found",
-      });
-    }
+//     if (!student) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Student not found",
+//       });
+//     }
 
-    const { page = 1, limit = 10 } = req.query;
+//     const { page = 1, limit = 10 } = req.query;
 
-    const announcements = await Announcement.find({
-      $or: [
-        { target: "all" },
-        { target: "students" },
-        { classes: student.class },
-      ],
-    })
-      .populate("createdBy", "name")
-      .sort({ createdAt: -1 })
-      .limit(limit * 1)
-      .skip((page - 1) * limit);
+//     const announcements = await Announcement.find({
+//       $or: [
+//         { target: "all" },
+//         { target: "students" },
+//         { classes: student.class },
+//       ],
+//     })
+//       .populate("createdBy", "name")
+//       .sort({ createdAt: -1 })
+//       .limit(limit * 1)
+//       .skip((page - 1) * limit);
 
-    const total = await Announcement.countDocuments({
-      $or: [
-        { target: "all" },
-        { target: "students" },
-        { classes: student.class },
-      ],
-    });
+//     const total = await Announcement.countDocuments({
+//       $or: [
+//         { target: "all" },
+//         { target: "students" },
+//         { classes: student.class },
+//       ],
+//     });
 
-    res.status(200).json({
-      success: true,
-      data: announcements,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        pages: Math.ceil(total / limit),
-      },
-    });
-  } catch (error) {
-    console.error("Get announcements error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
-  }
-};
+//     res.status(200).json({
+//       success: true,
+//       data: announcements,
+//       pagination: {
+//         page: parseInt(page),
+//         limit: parseInt(limit),
+//         total,
+//         pages: Math.ceil(total / limit),
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Get announcements error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: "Server error",
+//     });
+//   }
+// };
 
 // Get student's bus location
 export const getBusLocation = async (req, res) => {

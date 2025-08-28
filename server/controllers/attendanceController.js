@@ -1,14 +1,14 @@
-import Attendance from "../models/Attendance";
-import Student from "../models/Student";
-import Class from "../models/Class";
-import { sendNotification } from "../utils/notifications";
+// attendanceController.js
+import Attendance from "../models/Attendance.js";
+import Student from "../models/Student.js";
+import Class from "../models/Class.js";
+import { sendNotification } from "../utils/notifications.js";
 
-// Mark attendance for a class
+// 📌 Mark attendance for a class
 export const markAttendance = async (req, res) => {
   try {
     const { classId, date, attendanceData } = req.body;
 
-    // Check if class exists
     const classExists = await Class.findById(classId);
     if (!classExists) {
       return res.status(404).json({
@@ -21,11 +21,9 @@ export const markAttendance = async (req, res) => {
     const absentStudents = [];
 
     for (const record of attendanceData) {
-      // Check if student exists
       const student = await Student.findById(record.studentId);
       if (!student) continue;
 
-      // Create or update attendance record
       const attendance = await Attendance.findOneAndUpdate(
         { student: record.studentId, date: new Date(date) },
         {
@@ -40,23 +38,19 @@ export const markAttendance = async (req, res) => {
 
       attendanceRecords.push(attendance);
 
-      // If student is absent, add to notification list
       if (record.status === "Absent") {
         absentStudents.push(student);
       }
     }
 
-    // Send notifications for absent students
-    if (absentStudents.length > 0) {
-      for (const student of absentStudents) {
-        sendNotification({
-          type: "ATTENDANCE_ABSENT",
-          student: student._id,
-          message: `Your child ${student.name} was absent on ${new Date(
-            date
-          ).toLocaleDateString()}`,
-        });
-      }
+    for (const student of absentStudents) {
+      sendNotification({
+        type: "ATTENDANCE_ABSENT",
+        student: student._id,
+        message: `Your child ${student.name} was absent on ${new Date(
+          date
+        ).toLocaleDateString()}`,
+      });
     }
 
     res.status(200).json({
@@ -73,7 +67,7 @@ export const markAttendance = async (req, res) => {
   }
 };
 
-// Get attendance by class and date
+// 📌 Get attendance by class and date
 export const getAttendanceByClass = async (req, res) => {
   try {
     const { classId, date } = req.params;
@@ -98,7 +92,7 @@ export const getAttendanceByClass = async (req, res) => {
   }
 };
 
-// Get attendance report for a student
+// 📌 Get attendance report for a student
 export const getStudentAttendance = async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -117,7 +111,6 @@ export const getStudentAttendance = async (req, res) => {
       .populate("markedBy", "name")
       .sort({ date: -1 });
 
-    // Calculate attendance summary
     const total = attendance.length;
     const present = attendance.filter((a) => a.status === "Present").length;
     const absent = attendance.filter((a) => a.status === "Absent").length;

@@ -1,7 +1,7 @@
 import express, { json, urlencoded } from "express";
 import { connect } from "mongoose";
 import { createServer } from "http";
-import socketIo from "socket.io";
+import { Server } from "socket.io";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -11,22 +11,23 @@ import { config } from "dotenv";
 config();
 
 // Import routes
-import authRoutes from "./routes/auth";
-import userRoutes from "./routes/users";
-import busRoutes from "./routes/bus";
-import materialRoutes from "./routes/materials";
-import attendanceRoutes from "./routes/attendance";
-import gradeRoutes from "./routes/grades";
-import studentRoutes from "./routes/students";
+import authRoutes from "./routes/auth.js";
+//import userRoutes from "./routes/users";
+import busRoutes from "./routes/bus.js";
+import materialRoutes from "./routes/materials.js";
+import attendanceRoutes from "./routes/attendance.js";
+import gradeRoutes from "./routes/grades.js";
+import studentRoutes from "./routes/students.js";
+import classRoutes from "./routes/classes.js"
 // Import other routes...
 
 // Import auth controller for principal initialization
-import { createPrincipal } from "./controllers/authController";
+import { createPrincipal } from "./controllers/authController.js";
 
 // Initialize express app
 const app = express();
 const server = createServer(app);
-const io = socketIo(server, {
+const io = new Server();(server, {
   cors: {
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST"],
@@ -84,12 +85,13 @@ app.use((req, res, next) => {
 
 // Mount routes
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
+//app.use("/api/users", userRoutes);
 app.use("/api/bus", busRoutes);
 app.use("/api/materials", materialRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/grades", gradeRoutes);
 app.use("/api/students", studentRoutes);
+app.use("/api/classes",classRoutes);
 // Mount other routes...
 
 // Basic route for testing

@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+// models/Teacher.js
+import mongoose from "mongoose";
+
+const { Schema, model } = mongoose;
 
 const teacherSchema = new Schema(
   {
@@ -33,4 +36,11 @@ const teacherSchema = new Schema(
   }
 );
 
-export default model("Teacher", teacherSchema);
+const Teacher = model("Teacher", teacherSchema);
+
+// ✅ Named exports
+export const findById = (id) => Teacher.findById(id);
+export const create = (data) => Teacher.create(data);
+
+// ✅ Default export
+export default Teacher;

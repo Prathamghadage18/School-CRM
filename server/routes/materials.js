@@ -4,9 +4,9 @@ import {
   uploadMaterial,
   getMaterialsByClass,
   deleteMaterial,
-} from "../controllers/materialController";
-import { protect, authorize } from "../middleware/auth";
-import upload from "../middleware/upload";
+} from "../controllers/materialController.js";
+import { protect, authorize } from "../middleware/auth.js";
+import upload from "../middleware/upload.js";
 
 router.post(
   "/upload",
