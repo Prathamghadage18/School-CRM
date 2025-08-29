@@ -68,33 +68,35 @@ export default function StudentDashboard() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden z-20 bg-white shadow px-6 py-4 space-y-3">
-          {NavigationItem.map((item, idx) => (
-            <Link
-              key={idx}
-              to={item.path}
-              onClick={() => setMenuOpen(false)}
-              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
-                item.active
-                  ? "text-primary bg-blue-50"
-                  : "text-gray-600 hover:bg-blue-50"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
-
-          <div className="flex gap-3 pt-3 border-t">
-            <button className="flex-1 text-white bg-red-500 px-4 py-2 rounded-md">
-              Logout
-            </button>
-            <button className="flex-1 text-white bg-primary px-4 py-2 rounded-md">
-              Login
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="md:hidden fixed w-full z-40 top-[50px] bg-white shadow p-4 space-y-2">
+              <div className="md:hidden  bg-white shadow px-6 py-4 space-y-3">
+                {NavigationItem.map((item, idx) => (
+                  <Link
+                    key={idx}
+                    to={item.path}
+                    onClick={() => setMenuOpen(false)}
+                    className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md ${item.active
+                      ? "text-primary bg-blue-50"
+                      : "text-gray-600 hover:bg-blue-50"
+                      }`}
+                  >
+                    <span className="text-lg">{item.icon}</span>
+                    <span>{item.label}</span>
+                  </Link>
+                ))}
+    
+                <div className="flex gap-3 pt-3 border-t">
+                  <button className="flex-1 text-white bg-red-500 px-4 py-2 rounded-md">
+                    Logout
+                  </button>
+                  <button className="flex-1 text-white bg-primary px-4 py-2 rounded-md">
+                    Login
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+    
 
       {/* Main Content */}
       <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
