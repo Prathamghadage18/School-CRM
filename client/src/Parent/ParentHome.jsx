@@ -29,9 +29,9 @@ const ParentHome = () => {
   );
 
   return (
-    <div className="min-h-screen bg-blue-50 p-6 space-y-8 lg:w-10/12 m-auto">
+    <div className="min-h-screen  p-6 space-y-8 lg:w-10/12 m-auto">
       {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <StatCard title="Overall Grade" value="A-" color="text-green-600" />
         <StatCard title="Attendance" value="95%" color="text-blue-600" />
         <StatCard title="Class Rank" value="7th" color="text-purple-600" />

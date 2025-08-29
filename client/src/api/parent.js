@@ -1,37 +1,33 @@
 import React, { useState } from "react";
 import { FaHome, FaBook, FaClipboardList, FaCheckCircle, FaBars, FaTimes } from "react-icons/fa";
-import { Routes, Route, Link, useLocation, useParams } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 
-import StudentGrades from "./StudentGrades";
-import StudentMaterials from "./StudentMaterials";
-import StudentHome from "./StudentHome";
-import StudentAttendance from "./StudentAttendance";
 import ProtectedRoute from "../api/ProtectedRoute";
-import GradientCircles from "../components/ui/GradientCircles";
+import TeacherAttendance from "./TeacherAttendance";
+import TeacherGrades from "./TeacherGrades";
+import TeacherMaterials from "./TeacherMaterials";
+import TeacherHome from "./TeacherHome";
 
-export default function StudentDashboard() {
- const params = useParams();
-  const currentPath = params["*"];
+export default function TeacherDashboard() {
+  const location = useLocation();
+  const currentPath = location.pathname.split("/")[2] || "";
   const [menuOpen, setMenuOpen] = useState(false);
 
   const NavigationItem = [
-    { icon: <FaHome />, label: "Dashboard", path: "/student-dashboard", active: currentPath === "" },
-    { icon: <FaBook />, label: "Materials", path: "/student-dashboard/materials", active: currentPath === "materials" },
-    { icon: <FaClipboardList />, label: "Grades", path: "/student-dashboard/grades", active: currentPath === "grades" },
-    { icon: <FaCheckCircle />, label: "Attendance", path: "/student-dashboard/attendance", active: currentPath === "attendance" },
+    { icon: <FaHome />, label: "Dashboard", path: "/teacher-dashboard", active: currentPath === "home" },
+    { icon: <FaBook />, label: "Materials", path: "/teacher-dashboard/materials", active: currentPath === "materials" },
+    { icon: <FaClipboardList />, label: "Grades", path: "/teacher-dashboard/grades", active: currentPath === "grades" },
+    { icon: <FaCheckCircle />, label: "Attendance", path: "/teacher-dashboard/attendance", active: currentPath === "attendance" },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 flex flex-col">
-      <GradientCircles />
-
       {/* Navbar */}
-      <div className="z-20 bg-white shadow px-6 py-4 flex items-center justify-between">
+      <div className="bg-white shadow px-6 py-4 flex items-center justify-between">
         {/* Left side: Logo + Nav */}
         <div className="flex items-center gap-6">
-  <Link to={'/'}>          
-          <p className="font-bold text-xl text-primary mx-4">Logo</p>
-          </Link>
+          <p className="font-bold text-xl text-primary">Logo</p>
+
           {/* Desktop Nav */}
           <div className="hidden md:flex gap-2">
             {NavigationItem.map((item, idx) => (
@@ -52,9 +48,9 @@ export default function StudentDashboard() {
         </div>
 
         {/* Right side */}
-        <div className="hidden md:flex items-center text-sm space-x-4">
-          <button className="text-white bg-red-500 px-4 py-1 rounded-sm ">Logout</button>
-          <button className="text-white bg-primary px-4 py-1  rounded-sm">Login</button>
+        <div className="hidden md:flex items-center space-x-4">
+          <button className="text-white bg-red-500 px-4 py-1 rounded-md">Logout</button>
+          <button className="text-white bg-primary px-4 py-1 rounded-md">Login</button>
         </div>
 
         {/* Mobile Hamburger */}
@@ -68,7 +64,7 @@ export default function StudentDashboard() {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden z-20 bg-white shadow px-6 py-4 space-y-3">
+        <div className="md:hidden bg-white shadow px-6 py-4 space-y-3">
           {NavigationItem.map((item, idx) => (
             <Link
               key={idx}
@@ -97,13 +93,13 @@ export default function StudentDashboard() {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
+      <main className="flex-1 w-full lg:h-screen lg:overflow-y-scroll p-4">
         <Routes>
-          <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
-            <Route path="/" element={<StudentHome />} />
-            <Route path="/materials" element={<StudentMaterials />} />
-            <Route path="/grades" element={<StudentGrades />} />
-            <Route path="/attendance" element={<StudentAttendance />} />
+          <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+            <Route path="/" element={<TeacherHome />} />
+            <Route path="/materials" element={<TeacherMaterials />} />
+            <Route path="/grades" element={<TeacherGrades />} />
+            <Route path="/attendance" element={<TeacherAttendance />} />
           </Route>
         </Routes>
       </main>

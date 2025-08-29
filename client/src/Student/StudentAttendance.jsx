@@ -14,7 +14,7 @@ const StudentAttendance = () => {
       </h2>
 
       {/* Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-green-50 p-4 rounded-lg text-center">
           <p className="text-2xl font-bold text-green-600">95%</p>
           <p className="text-gray-600">Overall Attendance</p>

@@ -1,59 +1,89 @@
-import React from 'react'
+import React from "react";
+import { FaRocket, FaCalendarAlt, FaUpload, FaCheckSquare, FaFileAlt, FaBullhorn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const TeacherHome = () => {
-  const StatCard = ({ title, value, color }) => (
-    <div className={`flex flex-col items-center justify-center bg-white shadow-md rounded-xl p-6 ${color}`}>
-      <h3 className="text-sm text-gray-600">{title}</h3>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  );
-
-  const SubjectCard = ({ subject, teacher, grade, percent }) => (
-    <div className="flex justify-between items-center bg-white rounded-lg p-4 shadow">
-      <div>
-        <h4 className="font-semibold text-gray-800">{subject}</h4>
-        <p className="text-gray-500 text-sm">{teacher}</p>
-      </div>
-      <div className="text-right">
-        <span className="text-lg font-bold">{grade}</span>
-        <p className="text-sm text-gray-500">{percent}%</p>
-      </div>
-    </div>
-  );
-
-  const ActivityCard = ({ title, desc, status }) => (
-    <div className={`p-4 rounded-lg shadow text-sm ${status}`}>
-      <h4 className="font-semibold">{title}</h4>
-      <p>{desc}</p>
-    </div>
-  );
-
   return (
-    <div className="min-h-screen bg-blue-50 p-6 space-y-8">
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <StatCard title="Overall Grade" value="A-" color="text-green-600" />
-        <StatCard title="Attendance" value="95%" color="text-blue-600" />
-        <StatCard title="Class Rank" value="7th" color="text-purple-600" />
-        <StatCard title="Assignments Due" value="3" color="text-red-600" />
+    <div className="sm:p-6 space-y-6">
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
+        <div className=" bg-[conic-gradient(var(--tw-gradient-stops))] from-[#4267ff] via-[#818cf8] to-[#c7d2fe] rounded-xl shadow p-4 text-center">
+          <h2 className="text-3xl font-bold text-white text-shadow">3</h2>
+          <p className="text-white font-semibold">My Classes</p>
+        </div>
+        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#3aaa2b] via-[#9bff98] to-[#c7fed3] rounded-xl shadow p-4 text-center ">
+          <h2 className="text-3xl font-bold text-white text-shadow">89</h2>
+          <p className="text-white font-semibold">Total Students</p>
+        </div>
+        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#8346e5] via-[#9581f8] to-[#e4c7fe] rounded-xl shadow p-4 text-center">
+          <h2 className="text-3xl font-bold text-white text-shadow">24</h2>
+          <p className="text-white font-semibold">Materials Shared</p>
+        </div>
+        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#e54646] via-[#f88181] to-[#fec7c7] rounded-xl shadow p-4 text-center">
+          <h2 className="text-3xl font-bold text-white text-shadow">7</h2>
+          <p className="text-white font-semibold">Pending Grades</p>
+        </div>
       </div>
 
-      {/* Progress Report */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Subject Performance */}
-        <div className="bg-white rounded-xl shadow p-6 space-y-4">
-          <h2 className="text-lg font-bold">📚 Subject Performance</h2>
-          <SubjectCard subject="Mathematics" teacher="Ms. Wilson" grade="A" percent={90} />
-          <SubjectCard subject="Science" teacher="Mr. Brown" grade="A-" percent={85} />
-          <SubjectCard subject="English" teacher="Mrs. Davis" grade="A" percent={88} />
+        {/* Today's Schedule */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+            <FaCalendarAlt className="text-blue-600" /> Today's Schedule
+          </h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center p-3 rounded-lg bg-blue-50">
+              <div>
+                <p className="font-medium ">Mathematics - Class 10A</p>
+                <p className="text-sm text-gray-500">9:00 AM - 10:00 AM</p>
+              </div>
+              <button className="text-blue-600 font-medium">Mark Attendance</button>
+            </div>
+            <div className="flex justify-between items-center p-3 rounded-lg bg-green-50">
+              <div>
+                <p className="font-medium ">Mathematics - Class 10B</p>
+                <p className="text-sm text-gray-500">11:00 AM - 12:00 PM</p>
+              </div>
+              <button className="text-green-600 font-medium">Mark Attendance</button>
+            </div>
+          </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="bg-white rounded-xl shadow p-6 space-y-4">
-          <h2 className="text-lg font-bold">📝 Recent Activity</h2>
-          <ActivityCard title="Math Quiz Completed" desc="Score: 92/100 • Yesterday" status="bg-green-50" />
-          <ActivityCard title="Science Assignment Submitted" desc="On time • 2 days ago" status="bg-blue-50" />
-          <ActivityCard title="History Project Due" desc="Tomorrow • Not submitted" status="bg-red-50" />
+        {/* Quick Actions */}
+        <div className="bg-white rounded-xl shadow p-6">
+          <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+            <FaRocket className="text-pink-500" /> Quick Actions
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <Link to={'/teacher-dashboard/materials'}>
+              <button className=" w-full p-4 bg-blue-50 rounded-lg flex flex-col items-center hover:shadow">
+                <FaUpload className="text-blue-600 text-2xl mb-2" />
+                Upload Material
+              </button>
+            </Link>
+
+            <Link to={'/teacher-dashboard/attendance'}>
+              <button className="p-4 w-full bg-green-50 rounded-lg flex flex-col items-center hover:shadow">
+                <FaCheckSquare className="text-green-600 text-2xl mb-2 " />
+                Take Attendance
+              </button>
+            </Link>
+
+            <Link to={'/teacher-dashboard/grades'}>
+              <button className="p-4 w-full bg-purple-50 rounded-lg flex flex-col items-center hover:shadow">
+                <FaFileAlt className="text-purple-600 text-2xl mb-2" />
+                Enter Grades
+              </button>
+            </Link>
+
+            <Link to={'/teacher-dashboard/attendance/notices'}>
+              <button className="p-4 w-full bg-orange-50 rounded-lg flex flex-col items-center hover:shadow">
+                <FaBullhorn className="text-red-500 text-2xl mb-2" />
+                Send Notice
+              </button>
+            </Link>
+
+          </div>
         </div>
       </div>
     </div>

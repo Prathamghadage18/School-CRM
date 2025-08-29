@@ -1,62 +1,104 @@
-import React from "react";
-import { FaHome, FaBook, FaClipboardList, FaCheckCircle } from "react-icons/fa";
-import { Routes, Route} from "react-router-dom";
+import React, { useState } from "react";
+import { FaHome, FaBook, FaClipboardList, FaCheckCircle, FaBars, FaTimes } from "react-icons/fa";
+import { Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 
 import ProtectedRoute from "../api/ProtectedRoute";
 import PrincipleHome from "./PrincipleHome";
 import Analytics from "./Analytics";
 import Announcements from "./Announcements";
 import UserManagement from "./UserManagement";
+import GradientCircles from "../components/ui/GradientCircles";
 
 export default function PrincipleDashboard() {
-  const params = window.location.pathname.split("/")[2] || "home"; 
- 
-  const NaviagationItem = [
-    { icon: <FaHome />, label: "Home", path: "/principle-dashboard/home", active: params === "home" },
-    { icon: <FaBook />, label: "Analytics", path: "/principle-dashboard/analytics", active: params === "analytics" },
-    { icon: <FaClipboardList />, label: "User Management", path: "/principle-dashboard/user-management", active: params === "user-management" },
-    { icon: <FaCheckCircle />, label: "Announcement", path: "/principle-dashboard/announcement", active: params === "announcement" },
+  const params = useParams();
+  const currentPath = params["*"];
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const NavigationItem = [
+    { icon: <FaHome />, label: "Home", path: "/principle-dashboard", active: currentPath === "" },
+    { icon: <FaBook />, label: "Analytics", path: "/principle-dashboard/analytics", active: currentPath === "analytics" },
+    { icon: <FaClipboardList />, label: "User Management", path: "/principle-dashboard/user-management", active: currentPath === "user-management" },
+    { icon: <FaCheckCircle />, label: "Announcement", path: "/principle-dashboard/announcement", active: currentPath === "announcement" },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50">
-      {/* Navbar */}
-      <div className="bg-white shadow  px-10 py-4 flex items-center justify-between">
-        <div className="flex space-x-4">
-          {/* <button className="text-blue-600 hover:underline">← Back to Roles</button> */}
-          <p className=" mr-4">Logo</p>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-indigo-50 flex flex-col">
+      <GradientCircles />
 
-          {NaviagationItem.map((item, idx) => (
-            <a
+      {/* Navbar */}
+      <div className="z-20 bg-white shadow px-6 py-4 flex items-center justify-between">
+        {/* Left side: Logo + Nav */}
+        <div className="flex items-center gap-6">
+          <Link to={'/'}>          
+          <p className="font-bold text-xl text-primary mx-4">Logo</p>
+          </Link>
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-2">
+            {NavigationItem.map((item, idx) => (
+              <Link
+                key={idx}
+                to={item.path}
+                className={`flex items-center gap-2 px-3 py-2 text-sm transition rounded-md ${item.active
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-600 hover:bg-blue-50"
+                  }`}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Right side */}
+        <div className="hidden md:flex items-center text-sm space-x-4">
+          <button className="text-white bg-red-500 px-4 py-1 rounded-sm">Logout</button>
+          <button className="text-white bg-primary px-4 py-1 rounded-sm">Login</button>
+        </div>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-gray-600 text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden z-20 bg-white shadow px-6 py-4 space-y-3">
+          {NavigationItem.map((item, idx) => (
+            <Link
               key={idx}
-              href={item.path}
-              className={`flex text-sm items-center space-x-2 px-3 py-2 transition ${
-                item.active
-                  ? " text-primary  border-b-2 border-primary"
+              to={item.path}
+              onClick={() => setMenuOpen(false)}
+              className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md ${item.active
+                  ? "text-primary bg-blue-50"
                   : "text-gray-600 hover:bg-blue-50"
-              }`}
+                }`}
             >
               <span className="text-lg">{item.icon}</span>
               <span>{item.label}</span>
-            </a>
+            </Link>
           ))}
-        </div>
 
-        <div className="flex items-center space-x-4">
-          <button className=" text-white bg-red-500  px-4 py-1 rounded-md">
-         Logout
-        </button>
-        <button className=" text-white bg-primary  px-4 py-1 rounded-md">
-         Login
-        </button>
+          <div className="flex gap-3 pt-3 border-t">
+            <button className="flex-1 text-white bg-red-500 px-4 py-2 rounded-md">
+              Logout
+            </button>
+            <button className="flex-1 text-white bg-primary px-4 py-2 rounded-md">
+              Login
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main Content */}
-      <main className="w-full lg:h-screen lg:overflow-y-scroll p-6">
+      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["principle"]} />}>
-            <Route path="/home" element={<PrincipleHome />} />
+            <Route path="/" element={<PrincipleHome />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/announcement" element={<Announcements />} />
             <Route path="/user-management" element={<UserManagement />} />

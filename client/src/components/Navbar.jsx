@@ -9,9 +9,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const navLinks = [
   { path: '/', label: 'Home' },
-  { path: '/about', label: 'About Us' },
-  { path: '/contact', label: 'Contact Us' },
+  { path: '/#about', label: 'About Us' },
+   { path: '/#features', label: 'Features' },
+  { path: '/#service', label: 'Service' },
+  { path: '/#contact', label: 'Contact Us' },
 ];
+
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +43,16 @@ const Navbar = () => {
     localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
 
+  const handleScroll = (e, targetId) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false); // close mobile menu if open
+  };
+
+
   return (
     <nav
       className={`w-full dark:bg-[#090d13] bg-white sticky top-0 z-50 ${scrolled ? 'shadow-lg dark:shadow-gray-900/50' : ''
@@ -64,20 +78,24 @@ const Navbar = () => {
           <ul className="hidden lg:flex space-x-4">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <Link
-                  to={link.path}
-                  className={`relative px-3 py-2 text-sm font-medium ${location.pathname === link.path
-                    ? 'text-primary dark:text-primary'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary'
+                <a
+                  href={link.path}
+                  onClick={(e) => {
+                    if (link.path.startsWith("/#")) {
+                      const targetId = link.path.replace("/#", "");
+                      handleScroll(e, targetId);
+                    }
+                  }}
+                  className={`relative px-3 py-2 text-sm font-medium ${location.hash === link.path.replace("/", "")
+                    ? ' '
+                    : 'text-gray-700 dark:text-gray-300 hover:text-primary'
                     } transition-colors duration-300`}
                 >
                   {link.label}
-                  {location.pathname === link.path && (
-                    <span className="absolute left-0 bottom-0 w-full h-0.5 bg-primary" />
-                  )}
-                </Link>
+                </a>
               </li>
             ))}
+
           </ul>
 
           {/* Desktop Actions */}
@@ -96,7 +114,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center gap-4">
-            
+
             {/* <button
               onClick={toggleTheme}
               className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
@@ -127,7 +145,7 @@ const Navbar = () => {
             <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
               <div className="flex items-center gap-2">
                 <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
-                <span className="text-xl font-bold text-primary">Worklify</span>
+                <span className="text-xl font-bold text-primary">Project</span>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
@@ -140,18 +158,25 @@ const Navbar = () => {
             <div className="p-4">
               <ul className="space-y-4">
                 {navLinks.map((link) => (
-                  <li key={link.label} onClick={() => setIsOpen(false)}>
-                    <Link
-                      to={link.path}
-                      className={`block px-4 py-3 rounded-lg text-sm font-medium ${location.pathname === link.path
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                        } transition-colors`}
+                  <li key={link.label}>
+                    <a
+                      href={link.path}
+                      onClick={(e) => {
+                        if (link.path.startsWith("/#")) {
+                          const targetId = link.path.replace("/#", "");
+                          handleScroll(e, targetId);
+                        }
+                      }}
+                      className={`relative px-3 py-2 text-sm font-medium ${location.hash === link.path.replace("/", "")
+                          ? 'text-primary'
+                          : 'text-gray-700 dark:text-gray-300 hover:text-primary'
+                        } transition-colors duration-300`}
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
+
               </ul>
 
               <div className="mt-8 space-y-4">
@@ -204,12 +229,12 @@ const CheckUserExists = () => {
 
   return (
     <>
-      <Link
+      {/* <Link
         // to={`/${userRole}-dashboard`}
         className="px-4 py-2 rounded-md text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
       >
         Dashboard
-      </Link>
+      </Link> */}
 
       <button
         onClick={handleLogout}
@@ -217,6 +242,12 @@ const CheckUserExists = () => {
       >
         Logout
       </button>
+      <Link
+         to="/role-selection"
+           className="px-4 py-2 rounded-md ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+         >
+           Sign Up
+        </Link>
     </>
   );
 };

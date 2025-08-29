@@ -67,7 +67,7 @@ const UserManagement = () => {
       </div>
 
       {/* Table */}
-      <table className="w-full text-left border-t">
+      <table className="sm:w-full text-left border-t overflow-scroll">
         <thead>
           <tr className="text-sm text-gray-600">
             <th className="py-2">User</th>
@@ -78,7 +78,7 @@ const UserManagement = () => {
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody className="text-sm">
+        <tbody className="text-sm overflow-scroll">
           {users.map((u, i) => (
             <tr key={i} className="border-t">
               <td className="py-3">
