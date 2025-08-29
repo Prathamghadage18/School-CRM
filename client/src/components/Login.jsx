@@ -79,7 +79,7 @@ const Login = () => {
               Log In to Your Account
             </h2>
             <p className="text-sm text-gray-500 text-center">
-              Access your expert consultations and resources
+              Access your profile and manage your tasks
             </p>
           </div>
 
@@ -145,13 +145,8 @@ const Login = () => {
           </form>
 
           <p className="text-sm my-2 text-gray-500">
-            You don't have an account?{" "}
-            <Link
-              to={"/role-selection"}
-              className="text-blue-500 underline hover:text-blue-600 cursor-pointer"
-            >
-              SignUp
-            </Link>
+            You don't have an account?{" Please contact admin to create account."}
+           
           </p>
         </div>
       </div>

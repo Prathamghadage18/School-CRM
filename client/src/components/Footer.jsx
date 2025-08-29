@@ -151,7 +151,7 @@ const Footer = () => {
                 <a
                   key={index}
                   href="#"
-                  className="text-gray-500 hover:text-primary transition-colors"
+                  className="text-white hover:underline transition-colors"
                 >
                   {item}
                 </a>

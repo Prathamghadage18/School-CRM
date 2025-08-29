@@ -46,17 +46,33 @@ const HomePage = () => {
       <Navbar />
 
       {/* 🌟 Hero Section */}
-      <section id="home" className="bg-white text-gray-900 py-20 border-b">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-10">
+      <section id="home" className=" relative z-20  w-full h-screen flex justify-center items-center bg-white text-gray-900 py-20 border-b">
+        {/* Background Image with Overlay */}
+        <div className="absolute z-10 inset-0 w-full h-full">
+          <img
+            src="https://media.istockphoto.com/id/1366797961/photo/interior-views-of-an-empty-japanese-style-classroom.jpg?b=1&s=170667a&w=0&k=20&c=9VXDSLlX2Y-TiuO8AKSLKaN0-TKYZ0CAZWj1dhAckkQ="
+            alt="School CRM Illustration"
+            className="object-cover w-full h-full"
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-20 max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-10">
           {/* Left Content */}
-          <div className="lg:w-1/2">
-            <h1 className="text-5xl font-bold leading-tight mb-6 text-blue-700">
+          <div className=" text-white">
+            <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-6">
               School CRM System
             </h1>
-            <p className="text-sm text-gray-600 mb-6">
-              A modern, scalable, and user-friendly school management platform built to simplify academic and administrative processes while fostering transparency and collaboration. The system provides role-based access tailored to Principals, Teachers, Students, and Parents, ensuring each user has the right tools at their fingertips.
+            <p className="text-base sm:text-lg text-gray-200 mb-6">
+              A modern, scalable, and user-friendly school management platform built
+              to simplify academic and administrative processes while fostering
+              transparency and collaboration. The system provides role-based access
+              tailored to Principals, Teachers, Students, and Parents, ensuring each
+              user has the right tools at their fingertips.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <Link
                 to="/login"
                 className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
@@ -65,27 +81,19 @@ const HomePage = () => {
               </Link>
               <a
                 href="#roles"
-                className="border border-blue-600 text-blue-600 px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-50 transition"
+                className="border border-white text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-600 hover:border-blue-600 transition"
               >
                 👥 Explore Roles
               </a>
             </div>
           </div>
-
-          {/* Right Illustration */}
-          <div className="lg:w-1/2 flex justify-center">
-            <img
-              src="https://www.matichon.co.th/wp-content/uploads/2022/11/02-192.jpg"
-              alt="School CRM Illustration"
-              className="w-96 lg:w-[28rem] rounded-2xl "
-            />
-          </div>
         </div>
       </section>
 
-      <div className="w-full">
+
+      
         {/* ⭐ Stats Section */}
-        <section className="bg-blue-50 py-14 px-6">
+        <section className=" relative z-20 bg-blue-50 py-14 px-6">
           <div className="max-w-6xl mx-auto grid md:grid-cols-4 grid-cols-2 gap-6 text-center">
             <StatCard number="50+" label="Schools Onboarded" />
             <StatCard number="500+" label="Teachers Registered" />
@@ -94,17 +102,85 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="about" className="py-16 px-2 bg-gray-50 text-center">
-          <h2 className="text-4xl font-bold mb-6">About Us</h2>
-          <p className="max-w-3xl mx-auto text-gray-600 leading-relaxed">
-            Welcome to <span className="font-semibold text-indigo-600">Our School</span>,
-            where education meets innovation. We focus on nurturing young minds with
-            a perfect balance of academics, co-curricular activities, and real-world learning.
-          </p>
+        <div className=" w-full relative z-20  bg-white py-14 px-6">
+          <section id="about" className=" sm:w-10/12 w-full mx-auto sm:flex gap-2 py-16 px-2  ">
+          <div className=" sm:w-1/2 w-full p-4">
+            <h2 className="text-4xl font-bold mb-6 ">About Us</h2>
+            <p className="max-w-3xl  text-gray-600 leading-relaxed text-justify">
+              Welcome to <span className="font-semibold text-indigo-600">Our School</span>,
+              From its inception at the President’s Estate in 1941 as Church High School, through its transformation into Naveen Bharat School in 1947, and culminating in the establishment of DPS Mathura Road in 1949, the journey of DPS has been one of vision, growth, and revolutionising education in India. As India embarked on its journey of independence, The DPS Society emerged to fulfill the educational needs of a rapidly progressing nation . With its flagship school at DPS Mathura Road, followed by the establishment of DPS R.K. Puram in 1972, and now spanning the country with 222 schools, the DPS network continues to grow steadfastly in its commitment to serve the society.
+            </p>
+          </div>
+          <div className=" sm:w-1/2 w-full mx-auto">
+            <img src="https://www.yayskool.com/images/school/delhi-public-school-patiala-patiala-505721366.jpg" alt="" />
+          </div>
+        </section>
+        </div>
+
+
+
+
+        <section id="mission-vision-focus" className=" relative z-20  py-20 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            {/* Section Title */}
+            <h2 className="text-4xl font-bold text-blue-700 mb-4">Our Mission, Vision & Focus</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto mb-12">
+              We are committed to creating a transformative school CRM that empowers
+              educators, engages students, and connects parents through technology-driven
+              solutions.
+            </p>
+
+            {/* Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Mission Card */}
+              <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-blue-600">
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-semibold text-blue-700 mb-4 group-hover:text-white">
+                    🎯 Mission
+                  </h3>
+                  <p className="text-gray-600 group-hover:text-gray-100">
+                    To simplify academic and administrative workflows while promoting
+                    collaboration between principals, teachers, students, and parents
+                    through a seamless digital platform.
+                  </p>
+                </div>
+              </div>
+
+              {/* Vision Card */}
+              <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-green-600">
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-semibold text-green-700 mb-4 group-hover:text-white">
+                    🌍 Vision
+                  </h3>
+                  <p className="text-gray-600 group-hover:text-gray-100">
+                    To revolutionize education management by building smart, scalable,
+                    and inclusive systems that nurture transparency, efficiency, and
+                    academic excellence for the future.
+                  </p>
+                </div>
+              </div>
+
+              {/* Focus Card */}
+              <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-purple-600">
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-semibold text-purple-700 mb-4 group-hover:text-white">
+                    🔍 Focus
+                  </h3>
+                  <p className="text-gray-600 group-hover:text-gray-100">
+                    We focus on delivering user-friendly solutions, ensuring data security,
+                    and creating meaningful insights that empower decision-making and
+                    enhance the learning journey.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
+
+
         {/* Features Section */}
-        <section id="features" className="py-16 px-6 bg-white">
+        <section id="features" className=" relative z-20  py-16 px-6 bg-white">
           <h2 className="text-3xl font-bold text-center text-blue-700 mb-10">
             Core Features
           </h2>
@@ -147,11 +223,11 @@ const HomePage = () => {
           </div>
         </section>
 
-        <section id="service" className="py-16 bg-white">
+        <section id="service" className=" relative z-20  py-16 bg-white">
           <h2 className="text-4xl font-bold text-center mb-10">Our Services</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-            {services.map((s, i) => (
-              <div className="bg-white border  overflow-hidden shadow-sm hover:shadow-md transition">
+            {services.map((s, ind) => (
+              <div key={ind} className="bg-white border  overflow-hidden shadow-sm hover:shadow-md transition">
                 <div className=" flex justify-center">
                   <img
                     src={s.img}
@@ -159,10 +235,10 @@ const HomePage = () => {
                     className=" object-cover w-full h-[200px] hover:scale-105 duration-200"
                   />
                 </div>
-                
+
                 <div className="p-4">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{s.desc}</h3>
-                <p className="text-gray-600 text-sm">{s.desc}</p>
+                  <p className="text-gray-600 text-sm">{s.desc}</p>
                 </div>
               </div>
             ))}
@@ -170,7 +246,7 @@ const HomePage = () => {
         </section>
 
 
-        <section className="py-16 bg-gray-50">
+        <section className=" relative z-20  py-16 bg-gray-50">
           <h2 className="text-4xl font-bold text-center mb-10">What Our Members Say</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
             {testimonials.map((t, i) => (
@@ -190,11 +266,11 @@ const HomePage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-blue-700 text-white py-16 text-center">
+        <section className=" relative z-20 bg-primaryLight py-16 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Transform Your School with Smart CRM
           </h2>
-          <p className="max-w-2xl mx-auto mb-8 text-blue-100">
+          <p className="max-w-2xl mx-auto mb-8 text-gray-500">
             Simple, powerful & accessible tools for teachers, parents, students,
             and principals. Start with the MVP today!
           </p>
@@ -205,33 +281,37 @@ const HomePage = () => {
 
 
         {/* Newsletter Section */}
-        <section id="contact" className="py-14 bg-blue-50 text-center">
-          <h3 className="text-2xl font-bold mb-4 text-blue-700">
-            📬 Stay Updated with School CRM
-          </h3>
-          <p className="mb-6 text-gray-600">
-            Subscribe to receive product updates and new features.
-          </p>
-          <form className="flex justify-center gap-2 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="px-4 py-3 rounded-lg border w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">
-              Subscribe
-            </button>
-          </form>
+        <section id="contact" className=" w-full px-2 py-14 bg-blue-50 text-center relative overflow-hidden">
+          
+          <div className=" fixed -z-0 top-0 left-0 w-full h-full ">
+            <img src="https://abandonedkansai.com/wp-content/uploads/2016/10/school-hallway-next-to-a-slope.jpg" alt="" className=" w-full h-full object-cover" />
+          </div>
+
+          <div className=" relative z-10 max-w-2xl mx-auto bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-xl shadow-lg">
+            <h3 className="text-2xl font-bold mb-4 text-blue-700">
+              📬 Stay Updated with School CRM
+            </h3>
+            <p className="mb-6 text-gray-600">
+              Subscribe to receive product updates and new features.
+            </p>
+            <form className="flex justify-center gap-2 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="px-4 py-3 rounded-lg border w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">
+                Subscribe
+              </button>
+            </form>
+          </div>
         </section>
-      </div>
+     
 
       <Footer />
     </>
   );
 };
-
-
-
 
 const FeatureCard = ({ image, title, desc }) => (
   <div className="bg-white border rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
@@ -251,22 +331,6 @@ const StatCard = ({ number, label }) => (
   <div className="bg-white border rounded-xl shadow-sm p-6 hover:shadow-md transition">
     <h3 className="text-3xl font-bold text-blue-700">{number}</h3>
     <p className="text-gray-600 mt-2">{label}</p>
-  </div>
-);
-
-const StepCard = ({ step, title, desc }) => (
-  <div className="p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
-    <div className="text-4xl font-bold text-blue-600 mb-4">{step}</div>
-    <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-600">{desc}</p>
-  </div>
-);
-
-const TestimonialCard = ({ name, role, text }) => (
-  <div className="bg-white border rounded-xl shadow p-6 hover:shadow-md transition">
-    <p className="text-gray-600 italic mb-4">“{text}”</p>
-    <h4 className="font-semibold text-lg text-gray-900">{name}</h4>
-    <span className="text-sm text-gray-500">{role}</span>
   </div>
 );
 

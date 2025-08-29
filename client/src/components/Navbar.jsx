@@ -10,7 +10,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/#about', label: 'About Us' },
-   { path: '/#features', label: 'Features' },
+  { path: '/#features', label: 'Features' },
   { path: '/#service', label: 'Service' },
   { path: '/#contact', label: 'Contact Us' },
 ];
@@ -144,7 +144,7 @@ const Navbar = () => {
           <div className="fixed top-0 right-0 w-80 h-full dark:bg-[#090d13] bg-white shadow-xl z-50 overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
               <div className="flex items-center gap-2">
-                <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
+                <img src={""} alt="logo" className="w-10 h-10 object-contain" />
                 <span className="text-xl font-bold text-primary">Project</span>
               </div>
               <button
@@ -168,8 +168,8 @@ const Navbar = () => {
                         }
                       }}
                       className={`relative px-3 py-2 text-sm font-medium ${location.hash === link.path.replace("/", "")
-                          ? 'text-primary'
-                          : 'text-gray-700 dark:text-gray-300 hover:text-primary'
+                        ? 'text-primary'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-primary'
                         } transition-colors duration-300`}
                     >
                       {link.label}
@@ -243,11 +243,11 @@ const CheckUserExists = () => {
         Logout
       </button>
       <Link
-         to="/role-selection"
-           className="px-4 py-2 rounded-md ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
-         >
-           Sign Up
-        </Link>
+        to="/login"
+        className="px-4 py-2 rounded-md ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+      >
+        Login
+      </Link>
     </>
   );
 };

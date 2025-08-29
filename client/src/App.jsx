@@ -8,8 +8,8 @@ import TeacherDashboard from './Teacher/TeacherDashboard'
 import ParentDashboard from './Parent/ParentDashboard'
 import PrincipleDashboard from './Principle/PrincipleDashboard'
 import { Routes, Route } from 'react-router-dom'
-import SignupRoleSelection from './components/RoleSelection'
-import StudentRegistrationForm from './components/StudentRegistrationForm'
+// import SignupRoleSelection from './components/RoleSelection'
+// import StudentRegistrationForm from './components/StudentRegistrationForm'
 
 const App = () => {
   return (
@@ -17,8 +17,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/role-selection' element={<SignupRoleSelection />} />
-        <Route path='/student' element={<StudentRegistrationForm />} />
+        {/* <Route path='/role-selection' element={<SignupRoleSelection />} /> */}
+        {/* <Route path='/student' element={<StudentRegistrationForm />} /> */}
 
         <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
           <Route path='/admin-dashboard/*' element={<Dashboard />} />

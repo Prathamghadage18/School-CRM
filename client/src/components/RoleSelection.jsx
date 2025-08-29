@@ -3,13 +3,13 @@ import { FaUser, FaUserTie } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const roles = [
-  {
-    id: "student",
-    label: "Student",
-    icon: <FaUser className="text-xl" />,
-    description: "Access learning resources & explore",
-    colorClass: "bg-indigo-50",
-  },
+  // {
+  //   id: "student",
+  //   label: "Student",
+  //   icon: <FaUser className="text-xl" />,
+  //   description: "Access learning resources & explore",
+  //   colorClass: "bg-indigo-50",
+  // },
   {
     id: "parent",
     label: "Parent",
