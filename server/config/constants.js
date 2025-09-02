@@ -5,27 +5,22 @@ export const ROLES = {
   PARENT: "parent",
 };
 
+export const DEFAULT_ADMIN = {
+  employeeId: "admin001",
+  username: "admin",
+  password: "admin123", // Should be changed in production
+  email: "admin@school.com",
+  firstName: "System",
+  lastName: "Admin",
+  role: "admin",
+};
+
 export const FILE_TYPES = {
   NOTICE: "notice",
-  STUDY_MATERIAL: "study-material",
+  STUDY_MATERIAL: "study_material",
 };
 
-export const ALLOWED_FILE_TYPES = [
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-  "image/gif",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-];
-
-export const MAX_FILE_SIZES = {
-  NOTICE: 10 * 1024 * 1024, // 10MB
-  STUDY_MATERIAL: 20 * 1024 * 1024, // 20MB
-};
-
-export const PAGINATION = {
-  DEFAULT_PAGE: 1,
-  DEFAULT_LIMIT: 10,
-  MAX_LIMIT: 100,
+export const UPLOAD_PATHS = {
+  NOTICES: "uploads/notices/",
+  STUDY_MATERIALS: "uploads/study-materials/",
 };

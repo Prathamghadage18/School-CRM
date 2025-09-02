@@ -1,33 +1,39 @@
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err };
-  error.message = err.message;
-
-  // Log to console for dev
-  console.error(err);
-
-  // Mongoose bad ObjectId
-  if (err.name === "CastError") {
-    const message = "Resource not found";
-    error = { message, statusCode: 404 };
-  }
-
-  // Mongoose duplicate key
-  if (err.code === 11000) {
-    const message = "Duplicate field value entered";
-    error = { message, statusCode: 400 };
-  }
+  console.error(err.stack);
 
   // Mongoose validation error
   if (err.name === "ValidationError") {
-    const message = Object.values(err.errors)
-      .map((val) => val.message)
-      .join(", ");
-    error = { message, statusCode: 400 };
+    const errors = Object.values(err.errors).map((val) => val.message);
+    return res.status(400).json({
+      message: "Validation Error",
+      errors,
+    });
   }
 
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || "Server Error",
+  // Mongoose duplicate key error
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+    return res.status(400).json({
+      message: `${field} already exists`,
+    });
+  }
+
+  // Multer file upload error
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({
+      message: "File too large",
+    });
+  }
+
+  if (err.code === "LIMIT_UNEXPECTED_FILE") {
+    return res.status(400).json({
+      message: "Invalid file type",
+    });
+  }
+
+  // Default error
+  res.status(err.statusCode || 500).json({
+    message: err.message || "Server Error",
   });
 };
 

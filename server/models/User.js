@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import "../utils/helpers.js"; // Import to add paginate plugin
 
 const userSchema = new mongoose.Schema(
   {
@@ -21,7 +20,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      select: false, // Don't include password in queries by default
+      select: false, // Hide password by default
     },
     role: {
       type: String,
@@ -72,15 +71,12 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Indexes
+// Indexes for optimized queries
 userSchema.index({ employeeId: 1 });
 userSchema.index({ rollNumber: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ email: 1 });
 userSchema.index({ isActive: 1 });
-
-// Add pagination plugin
-mongoose.paginate(userSchema);
 
 const User = mongoose.model("User", userSchema);
 

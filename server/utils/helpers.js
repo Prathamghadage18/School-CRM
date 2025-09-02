@@ -1,69 +1,31 @@
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 
-// Add paginate plugin to mongoose schema
-mongoose.paginate = function (schema, options) {
-  schema.statics.paginate = async function (query, options) {
-    const { page = 1, limit = 10, sort, select, populate } = options || {};
-    const skip = (page - 1) * limit;
-
-    const countPromise = this.countDocuments(query).exec();
-    const docsPromise = this.find(query)
-      .select(select || "")
-      .sort(sort || { createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate(populate || "")
-      .exec();
-
-    const [totalDocs, docs] = await Promise.all([countPromise, docsPromise]);
-      const totalPages = Math.ceil(totalDocs / limit);
-      return {
-          docs,
-          totalDocs,
-          totalPages,
-          page,
-          limit,
-          hasNext: page < totalPages,
-          hasPrev: page > 1,
-      };
-  };
-};
-
-// Validate email format
-export const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-// Validate phone number format
-export const isValidPhone = (phone) => {
-  const phoneRegex = /^\+?[1-9]\d{1,14}$/;
-  return phoneRegex.test(phone);
-};
-
-// Generate random string
-export const generateRandomString = (length = 8) => {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+// Generate JWT token
+export const generateToken = (userId) => {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE || "7d",
+  });
 };
 
 // Format response
-export const formatResponse = (success, data, message = "") => {
+export const formatResponse = (success, message, data = null) => {
   return {
     success,
-    data,
     message,
+    data,
   };
 };
 
-// Error response
-export const errorResponse = (message, statusCode = 500) => {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  return error;
+// Pagination helper (for manual queries, not mongoose plugin)
+export const paginate = (query, options = {}) => {
+  const page = parseInt(options.page, 10) || 1;
+  const limit = parseInt(options.limit, 10) || 10;
+  const skip = (page - 1) * limit;
+
+  return query.skip(skip).limit(limit);
+};
+
+// Generate username based on role and ID
+export const generateUsername = (role, identifier) => {
+  return role === "parent" ? `parent_${identifier}` : identifier;
 };

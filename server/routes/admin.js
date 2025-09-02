@@ -6,6 +6,7 @@ import {
   getUsers,
   resetUserPassword,
   toggleUserStatus,
+  getUserStatistics,
 } from "../controllers/adminController.js";
 
 const router = express.Router();
@@ -19,6 +20,9 @@ router.post("/users", createUserCredentials);
 
 // Get all users with filtering
 router.get("/users", getUsers);
+
+// Get user statistics
+router.get("/stats/users", getUserStatistics);
 
 // Reset user password
 router.patch("/users/:userId/reset-password", resetUserPassword);

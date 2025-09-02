@@ -1,17 +1,19 @@
 import express from "express";
 import {
   login,
-  getMe,
+  getCurrentUser,
   changePassword,
-  logout,
 } from "../controllers/authController.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
+// Public routes
 router.post("/login", login);
-router.post("/logout", auth, logout);
-router.get("/me", auth, getMe);
-router.patch("/change-password", auth, changePassword);
+
+// Protected routes
+router.use(auth);
+router.get("/me", getCurrentUser);
+router.put("/change-password", changePassword);
 
 export default router;
