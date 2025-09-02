@@ -1,7 +1,7 @@
 import React from 'react'
 import Home from './components/Home'
 import Login from './components/Login'
-import ProtectedRoute from './api/ProtectedRoute'
+import ProtectedRoute from './config/ProtectedRoute'
 import Dashboard from './admin/Dashboard'
 import StudentDashboard from './Student/StudentDashboard'
 import TeacherDashboard from './Teacher/TeacherDashboard'
@@ -24,9 +24,9 @@ const App = () => {
           <Route path='/admin-dashboard/*' element={<Dashboard />} />
         </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+        {/* <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
           <Route path='/student-dashboard/*' element={<StudentDashboard />} />
-        </Route>
+        </Route> */}
 
         <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
           <Route path='/teacher-dashboard/*' element={<TeacherDashboard />} />

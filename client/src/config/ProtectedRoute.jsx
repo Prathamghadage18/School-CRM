@@ -8,10 +8,10 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
   // const userRole = useSelector(selectCurrentUserRole);
     // const userRole = 'principle';
     // const userRole = 'teacher';
-    // const userRole = 'student';
-    // const userRole = 'parent';
+    // const userRole = 'admin';
+    const userRole = 'parent';
     
-    const userRole = localStorage.getItem('role');  
+    // const userRole = localStorage.getItem('role');  
 
   return allowedRoles.includes(userRole) ? <Outlet /> : <Navigate to="/" />;
 };

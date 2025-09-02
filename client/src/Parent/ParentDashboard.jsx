@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 
-import ProtectedRoute from "../api/ProtectedRoute";
+import ProtectedRoute from "../config/ProtectedRoute";
 import Progress from "./Progress";
 import Communication from "./Communication";
 import BusTracking from "./BusTracking";
@@ -128,7 +128,7 @@ export default function ParentDashboard() {
       )}
 
       {/* Main Content */}
-      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
+      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2 scrollbar-hide">
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["parent"]} />}>
             <Route path="/" element={<ParentHome />} />

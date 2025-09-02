@@ -2,7 +2,7 @@ import React from "react";
 
 export default function GradientCircles() {
   return (
-    <div className="absolute h-screen w-full border-2 border-dashed border-gray-200 overflow-hidden">
+    <div className="fixed min-h-screen w-full border-2 border-dashed border-gray-200 overflow-hidden">
 
       <div className="relative -z-0 top-10  ">
         {/* Circle 1 - Pink/Purple */}

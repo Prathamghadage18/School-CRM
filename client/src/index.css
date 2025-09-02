@@ -12,3 +12,13 @@ body {
 .text-shadow {
      text-shadow: 2px 2px 20px rgb(138, 138, 138);
 }
+
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

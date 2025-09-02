@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaHome, FaBook, FaClipboardList, FaCheckCircle, FaBars, FaTimes } from "react-icons/fa";
 import { Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 
-import ProtectedRoute from "../api/ProtectedRoute";
+import ProtectedRoute from "../config/ProtectedRoute";
 import TeacherAttendance from "./TeacherAttendance";
 import TeacherGrades from "./TeacherGrades";
 import TeacherMaterials from "./TeacherMaterials";
@@ -99,7 +99,7 @@ export default function TeacherDashboard() {
 
       {/* Main Content */}
 
-      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
+      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2 scrollbar-hide">
 
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>

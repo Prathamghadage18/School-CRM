@@ -55,7 +55,7 @@ const HomePage = () => {
             className="object-cover w-full h-full"
           />
           {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+          <div className="absolute inset-0 bg-black bg-opacity-70"></div>
         </div>
 
         {/* Content */}
@@ -75,13 +75,13 @@ const HomePage = () => {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/login"
-                className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+                className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-primary transition"
               >
                 🚀 Get Started
               </Link>
               <a
                 href="#roles"
-                className="border border-white text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-blue-600 hover:border-blue-600 transition"
+                className="border border-white text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-primary hover:border-primary transition"
               >
                 👥 Explore Roles
               </a>
@@ -107,7 +107,7 @@ const HomePage = () => {
           <div className=" sm:w-1/2 w-full p-4">
             <h2 className="text-4xl font-bold mb-6 ">About Us</h2>
             <p className="max-w-3xl  text-gray-600 leading-relaxed text-justify">
-              Welcome to <span className="font-semibold text-indigo-600">Our School</span>,
+              Welcome to <span className="font-semibold text-primary">Our School</span>,
               From its inception at the President’s Estate in 1941 as Church High School, through its transformation into Naveen Bharat School in 1947, and culminating in the establishment of DPS Mathura Road in 1949, the journey of DPS has been one of vision, growth, and revolutionising education in India. As India embarked on its journey of independence, The DPS Society emerged to fulfill the educational needs of a rapidly progressing nation . With its flagship school at DPS Mathura Road, followed by the establishment of DPS R.K. Puram in 1972, and now spanning the country with 222 schools, the DPS network continues to grow steadfastly in its commitment to serve the society.
             </p>
           </div>
@@ -123,7 +123,7 @@ const HomePage = () => {
         <section id="mission-vision-focus" className=" relative z-20  py-20 bg-gray-50">
           <div className="max-w-6xl mx-auto px-6 text-center">
             {/* Section Title */}
-            <h2 className="text-4xl font-bold text-blue-700 mb-4">Our Mission, Vision & Focus</h2>
+            <h2 className="text-4xl font-bold text-primary mb-4">Our Mission, Vision & Focus</h2>
             <p className="text-gray-600 max-w-2xl mx-auto mb-12">
               We are committed to creating a transformative school CRM that empowers
               educators, engages students, and connects parents through technology-driven
@@ -133,9 +133,9 @@ const HomePage = () => {
             {/* Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Mission Card */}
-              <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-blue-600">
+              <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-primary">
                 <div className="relative z-10">
-                  <h3 className="text-2xl font-semibold text-blue-700 mb-4 group-hover:text-white">
+                  <h3 className="text-2xl font-semibold text-primary mb-4 group-hover:text-white">
                     🎯 Mission
                   </h3>
                   <p className="text-gray-600 group-hover:text-gray-100">
@@ -181,7 +181,7 @@ const HomePage = () => {
 
         {/* Features Section */}
         <section id="features" className=" relative z-20  py-16 px-6 bg-white">
-          <h2 className="text-3xl font-bold text-center text-blue-700 mb-10">
+          <h2 className="text-3xl font-bold text-center text-primary mb-10">
             Core Features
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -251,7 +251,7 @@ const HomePage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
             {testimonials.map((t, i) => (
               <div key={i} className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition text-center">
-                <FaUserTie className="text-indigo-600 text-5xl mx-auto mb-4" />
+                <FaUserTie className="text-primary text-5xl mx-auto mb-4" />
                 <p className="text-gray-600 italic mb-4">“{t.text}”</p>
                 <h4 className="text-lg font-semibold">{t.name}</h4>
                 <p className="text-sm text-gray-500">{t.role}</p>
@@ -274,21 +274,21 @@ const HomePage = () => {
             Simple, powerful & accessible tools for teachers, parents, students,
             and principals. Start with the MVP today!
           </p>
-          <button className="bg-white text-blue-700 font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-50">
+          <button className="bg-white text-primary font-semibold px-8 py-3 rounded-lg shadow hover:bg-blue-50">
             Get Started
           </button>
         </section>
 
 
         {/* Newsletter Section */}
-        <section id="contact" className=" w-full px-2 py-14 bg-blue-50 text-center relative overflow-hidden">
+        <section id="contact" className=" w-full px-2 py-14 bg-primaryLight text-center relative overflow-hidden">
           
           <div className=" fixed -z-0 top-0 left-0 w-full h-full ">
-            <img src="https://abandonedkansai.com/wp-content/uploads/2016/10/school-hallway-next-to-a-slope.jpg" alt="" className=" w-full h-full object-cover" />
+            <img src="https://abandonedkansai.com/wp-content/uploads/2016/10/school-hallway-next-to-a-slope.jpg" alt="bannerimg" className=" w-full h-full object-cover" />
           </div>
 
           <div className=" relative z-10 max-w-2xl mx-auto bg-white bg-opacity-90 backdrop-blur-md p-8 rounded-xl shadow-lg">
-            <h3 className="text-2xl font-bold mb-4 text-blue-700">
+            <h3 className="text-2xl font-bold mb-4 text-primary">
               📬 Stay Updated with School CRM
             </h3>
             <p className="mb-6 text-gray-600">
@@ -298,9 +298,9 @@ const HomePage = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-3 rounded-lg border w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-3 rounded-lg border w-full focus:outline-none focus:ring-2 focus:ring-primary"
               />
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">
+              <button className="bg-primary text-white px-6 py-3 rounded-lg shadow hover:bg-primary">
                 Subscribe
               </button>
             </form>
@@ -329,7 +329,7 @@ const FeatureCard = ({ image, title, desc }) => (
 
 const StatCard = ({ number, label }) => (
   <div className="bg-white border rounded-xl shadow-sm p-6 hover:shadow-md transition">
-    <h3 className="text-3xl font-bold text-blue-700">{number}</h3>
+    <h3 className="text-3xl font-bold text-primary">{number}</h3>
     <p className="text-gray-600 mt-2">{label}</p>
   </div>
 );

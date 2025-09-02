@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaHome, FaBook, FaClipboardList, FaCheckCircle, FaBars, FaTimes } from "react-icons/fa";
 import { Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 
-import ProtectedRoute from "../api/ProtectedRoute";
+import ProtectedRoute from "../config/ProtectedRoute";
 import PrincipleHome from "./PrincipleHome";
 import Analytics from "./Analytics";
 import Announcements from "./Announcements";
@@ -98,7 +98,7 @@ export default function PrincipleDashboard() {
       
 
       {/* Main Content */}
-      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
+      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2 scrollbar-hide">
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["principle"]} />}>
             <Route path="/" element={<PrincipleHome />} />

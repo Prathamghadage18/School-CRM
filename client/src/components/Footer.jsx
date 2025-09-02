@@ -85,7 +85,7 @@ const Footer = () => {
                   <li key={index}>
                     <a
                       href="#"
-                      className={`flex items-center text-white hover:text-primary transition-colors ${activeLink === `sol-${index}` ? 'text-primary' : ''}`}
+                      className={`flex items-center text-white  transition-colors ${activeLink === `sol-${index}` ? 'text-primary' : ''}`}
                       onMouseEnter={() => setActiveLink(`sol-${index}`)}
                       onMouseLeave={() => setActiveLink(null)}
                     >
@@ -105,7 +105,7 @@ const Footer = () => {
                   <li key={index}>
                     <a
                       href="#"
-                      className={`flex items-center text-white hover:text-primary transition-colors ${activeLink === `comp-${index}` ? 'text-primary' : ''}`}
+                      className={`flex items-center text-white  transition-colors ${activeLink === `comp-${index}` ? 'text-primary' : ''}`}
                       onMouseEnter={() => setActiveLink(`comp-${index}`)}
                       onMouseLeave={() => setActiveLink(null)}
                     >

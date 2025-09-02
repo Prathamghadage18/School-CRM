@@ -6,7 +6,7 @@ import StudentGrades from "./StudentGrades";
 import StudentMaterials from "./StudentMaterials";
 import StudentHome from "./StudentHome";
 import StudentAttendance from "./StudentAttendance";
-import ProtectedRoute from "../api/ProtectedRoute";
+import ProtectedRoute from "../config/ProtectedRoute";
 import GradientCircles from "../components/ui/GradientCircles";
 
 export default function StudentDashboard() {
@@ -99,7 +99,7 @@ export default function StudentDashboard() {
     
 
       {/* Main Content */}
-      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2">
+      <main className="flex-1 z-20 w-full lg:h-screen lg:overflow-y-scroll p-2 scrollbar-hide">
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
             <Route path="/" element={<StudentHome />} />
