@@ -4,7 +4,7 @@ import requireRole from "../middleware/roleCheck.js";
 import {
   getUserProfile,
   updateUserProfile,
-  searchUsers,
+  getAllUsers,
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -15,10 +15,10 @@ router.use(auth);
 // Get user profile
 router.get("/profile/:userId", getUserProfile);
 
-// Update user profile
-router.patch("/profile/:userId", updateUserProfile);
+// Update own profile
+router.put("/profile", updateUserProfile);
 
-// Search users (admin only)
-router.get("/search", requireRole(["admin"]), searchUsers);
+// Get all users (admin only)
+router.get("/", requireRole(["admin"]), getAllUsers);
 
 export default router;

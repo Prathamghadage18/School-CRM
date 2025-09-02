@@ -3,6 +3,8 @@ import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 // Routes
 import authRoutes from "./routes/auth.js";
@@ -12,7 +14,13 @@ import userRoutes from "./routes/users.js";
 // Middleware
 import errorHandler from "./middleware/errorHandler.js";
 
+// Constants
+import { UPLOAD_PATHS } from "./config/constants.js";
+
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -23,8 +31,9 @@ app.use(helmet());
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
 });
-app.use(limiter);
+app.use("/api/", limiter);
 
 // CORS configuration
 app.use(
@@ -37,6 +46,15 @@ app.use(
 // Body parsing middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
+
+// Create upload directories if they don't exist
+import fs from "fs";
+
+[UPLOAD_PATHS.NOTICES, UPLOAD_PATHS.STUDY_MATERIALS].forEach((dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
 // Static files
 app.use("/uploads", express.static("uploads"));

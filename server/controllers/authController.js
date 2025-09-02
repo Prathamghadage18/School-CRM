@@ -1,43 +1,34 @@
-import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import { comparePassword } from "../utils/passwordGenerator.js";
-
-// Generate JWT Token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE || "7d",
-  });
-};
+import { comparePassword } from "../utils/passwordUtils.js";
+import { generateToken, formatResponse } from "../utils/helpers.js";
 
 // Login user
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Validate input
-    if (!username || !password) {
-      return res.status(400).json({
-        message: "Please provide username and password.",
-      });
+    // Check if user exists
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(401).json(formatResponse(false, "Invalid credentials"));
     }
 
-    // Check for user
-    const user = await User.findOne({
-      $or: [{ username }, { email: username }],
-    }).select("+password");
-
-    if (!user || !user.isActive) {
-      return res.status(401).json({
-        message: "Invalid credentials.",
-      });
+    // Check if user is active
+    if (!user.isActive) {
+      return res
+        .status(401)
+        .json(
+          formatResponse(
+            false,
+            "Account is deactivated. Please contact administrator."
+          )
+        );
     }
 
     // Check password
-    const isPasswordMatch = await comparePassword(password, user.password);
-    if (!isPasswordMatch) {
-      return res.status(401).json({
-        message: "Invalid credentials.",
-      });
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json(formatResponse(false, "Invalid credentials"));
     }
 
     // Update last login
@@ -47,35 +38,34 @@ export const login = async (req, res) => {
     // Generate token
     const token = generateToken(user._id);
 
-    // Remove password from response
-    const userResponse = { ...user.toObject() };
-    delete userResponse.password;
-
-    res.json({
-      message: "Login successful.",
-      token,
-      user: userResponse,
-    });
+    // Return user info and token
+    res.json(
+      formatResponse(true, "Login successful", {
+        token,
+        user: {
+          id: user._id,
+          username: user.username,
+          role: user.role,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        },
+      })
+    );
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({
-      message: "Error during login.",
-      error: error.message,
-    });
+    res.status(500).json(formatResponse(false, "Server error during login"));
   }
 };
 
 // Get current user
-export const getMe = async (req, res) => {
+export const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-    res.json({ user });
+    res.json(formatResponse(true, "User retrieved successfully", { user }));
   } catch (error) {
-    console.error("Get me error:", error);
-    res.status(500).json({
-      message: "Error fetching user data.",
-      error: error.message,
-    });
+    console.error("Get current user error:", error);
+    res.status(500).json(formatResponse(false, "Server error retrieving user"));
   }
 };
 
@@ -83,13 +73,7 @@ export const getMe = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    const userId = req.user.id;
-
-    const user = await User.findById(userId).select("+password");
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found." });
-    }
+    const user = await User.findById(req.user.id);
 
     // Verify current password
     const isCurrentPasswordValid = await comparePassword(
@@ -99,33 +83,18 @@ export const changePassword = async (req, res) => {
     if (!isCurrentPasswordValid) {
       return res
         .status(400)
-        .json({ message: "Current password is incorrect." });
+        .json(formatResponse(false, "Current password is incorrect"));
     }
 
-    // Hash new password
-    const hashedPassword = await hashPassword(newPassword);
-    user.password = hashedPassword;
+    // Update password
+    user.password = await hashPassword(newPassword);
     await user.save();
 
-    res.json({ message: "Password changed successfully." });
+    res.json(formatResponse(true, "Password changed successfully"));
   } catch (error) {
     console.error("Change password error:", error);
-    res.status(500).json({
-      message: "Error changing password.",
-      error: error.message,
-    });
-  }
-};
-
-// Logout (client-side token removal)
-export const logout = async (req, res) => {
-  try {
-    res.json({ message: "Logout successful." });
-  } catch (error) {
-    console.error("Logout error:", error);
-    res.status(500).json({
-      message: "Error during logout.",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json(formatResponse(false, "Server error changing password"));
   }
 };
