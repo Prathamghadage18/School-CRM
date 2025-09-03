@@ -6,6 +6,7 @@ import { generateToken, formatResponse } from "../utils/helpers.js";
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log("credentials",username, password)
 
     // Check if user exists
     const user = await User.findOne({ username });

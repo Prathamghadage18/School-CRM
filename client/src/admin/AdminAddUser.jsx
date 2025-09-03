@@ -1,166 +1,193 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 const AdminAddUsers = () => {
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     role: "student",
+    username: "",
     id: "",
+    email: "",
+    phone: "",
+    password: "",
     status: "active",
   });
-  const [users, setUsers] = useState([]);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = async () => {
-    if (!form.name || !form.id) {
-      alert("⚠️ Please fill all fields!");
-      return;
-    }
-
-    // Generate credentials same as backend schema
-    const newUser = {
-      firstName: form.name.split(" ")[0],
-      lastName: form.name.split(" ")[1] || "",
-      role: form.role,
-      employeeId: form.role !== "student" ? form.id : undefined,
-      rollNumber: form.role === "student" ? form.id : undefined,
-      email: `${form.id}@school.com`,
-      password: `pass_${form.id}`, // backend will hash it
-      isActive: form.status === "active",
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      // const token = localStorage.getItem("token"); // replace with real logic
-      const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
+      const newUser = {
+        firstName: form.firstName,
+        lastName: form.lastName,
+        role: form.role,
+        username: form.username,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+        isActive: form.status === "active",
+      };
+
+      // Add role-specific IDs only if present
+      if (form.role === "teacher" || form.role === "principal") {
+        newUser.employeeId = form.id;
+      }
+      if (form.role === "student" || form.role === "parent") {
+        newUser.rollNumber = form.id;
+      }
+
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+
+      const response = await axios.post(
+        "http://localhost:5000/api/admin/users",
         newUser,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      setUsers([...users, res.data]);
-      alert(`✅ ${form.role} added successfully!`);
-      setForm({ name: "", role: "student", id: "", status: "active" });
+      toast.success(response.data.message || "User created successfully");
+
+      setForm({
+        firstName: "",
+        lastName: "",
+        role: "",
+        username: "",
+        id: "",
+        email: "",
+        phone: "",
+        password: "",
+        status: "active",
+      });
     } catch (err) {
-      console.error(err);
-      alert("❌ Failed to add user");
+      const errMsg =
+        err.response?.data?.message || "Error creating user. Please try again.";
+      toast.error(errMsg);
+      console.log(err)
     }
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">➕ Add New User</h2>
+    <div className="p-8 bg-white  shadow-md max-w-3xl m-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center">Add New User</h2>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          value={form.firstName}
+          onChange={handleChange}
+          className="w-full border  p-2"
+          required
+        />
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={form.lastName}
+          onChange={handleChange}
+          className="w-full border  p-2"
+        />
 
-      {/* FORM */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white p-4 rounded-lg shadow">
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-medium">Full Name</label>
-          <input
-            type="text"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            className="mt-1 block w-full border rounded px-3 py-2"
-            placeholder="John Doe"
-          />
-        </div>
+        <select
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          className="w-full border  p-2"
+          required
+        >
+          <option value="">Select Role</option>
+          <option value="principal">Principal</option>
+          <option value="teacher">Teacher</option>
+          <option value="student">Student</option>
+          <option value="parent">Parent</option>
+          <option value="admin">Admin</option>
+        </select>
 
-        {/* Role */}
-        <div>
-          <label className="block text-sm font-medium">Role</label>
-          <select
-            name="role"
-            value={form.role}
-            onChange={handleChange}
-            className="mt-1 block w-full border rounded px-3 py-2"
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={form.username}
+          onChange={handleChange}
+          className="w-full border  p-2"
+          required
+        />
+
+        {/* Conditional Employee ID / Roll Number */}
+        {(form.role === "teacher" ||
+          form.role === "principal" ||
+          form.role === "student" ||
+          form.role === "parent") && (
+            <input
+              type="text"
+              name="id"
+              placeholder={
+                form.role === "teacher" || form.role === "principal"
+                  ? "Employee ID"
+                  : "Roll Number"
+              }
+              value={form.id}
+              onChange={handleChange}
+              className="w-full border  p-2 col-span-2 md:col-span-1"
+              required
+            />
+          )}
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          className="w-full border  p-2"
+          required
+        />
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          value={form.phone}
+          onChange={handleChange}
+          className="w-full border  p-2"
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          className="w-full border  p-2"
+          required
+        />
+
+        <select
+          name="status"
+          value={form.status}
+          onChange={handleChange}
+          className="w-full border  p-2"
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+
+        <div className="col-span-1 md:col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2  hover:bg-blue-700"
           >
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-            <option value="principal">Principal</option>
-          </select>
+            Create User
+          </button>
         </div>
-
-        {/* ID Field */}
-        <div>
-          <label className="block text-sm font-medium">
-            {form.role === "student" ? "Roll Number" : "Employee ID"}
-          </label>
-          <input
-            type="text"
-            name="id"
-            value={form.id}
-            onChange={handleChange}
-            className="mt-1 block w-full border rounded px-3 py-2"
-            placeholder={
-              form.role === "student" ? "Enter Roll No." : "Enter Employee ID"
-            }
-          />
-        </div>
-
-        {/* Status */}
-        <div>
-          <label className="block text-sm font-medium">Status</label>
-          <select
-            name="status"
-            value={form.status}
-            onChange={handleChange}
-            className="mt-1 block w-full border rounded px-3 py-2"
-          >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Submit */}
-      <button
-        onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Add User
-      </button>
-
-      {/* USERS TABLE */}
-      {users.length > 0 && (
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold mb-2">📋 Users List</h3>
-          <table className="w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">Name</th>
-                <th className="border p-2">Role</th>
-                <th className="border p-2">ID</th>
-                <th className="border p-2">Email</th>
-                <th className="border p-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((u, i) => (
-                <tr key={i}>
-                  <td className="border p-2">
-                    {u.firstName} {u.lastName}
-                  </td>
-                  <td className="border p-2">{u.role}</td>
-                  <td className="border p-2">
-                    {u.role === "student" ? u.rollNumber : u.employeeId}
-                  </td>
-                  <td className="border p-2">{u.email}</td>
-                  <td className="border p-2">
-                    {u.isActive ? "Active" : "Inactive"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      </form>
     </div>
   );
 };

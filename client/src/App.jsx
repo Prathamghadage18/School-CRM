@@ -8,12 +8,14 @@ import TeacherDashboard from './Teacher/TeacherDashboard'
 import ParentDashboard from './Parent/ParentDashboard'
 import PrincipleDashboard from './Principle/PrincipleDashboard'
 import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'sonner';
 // import SignupRoleSelection from './components/RoleSelection'
 // import StudentRegistrationForm from './components/StudentRegistrationForm'
 
 const App = () => {
   return (
     <>
+     <Toaster />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

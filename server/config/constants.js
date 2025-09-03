@@ -3,6 +3,7 @@ export const ROLES = {
   PRINCIPAL: "principal",
   TEACHER: "teacher",
   PARENT: "parent",
+  STUDENT: "student",
 };
 
 export const DEFAULT_ADMIN = {

@@ -8,8 +8,8 @@ const ProtectedRoute = ({ allowedRoles = [] }) => {
   // const userRole = useSelector(selectCurrentUserRole);
     // const userRole = 'principle';
     // const userRole = 'teacher';
-    // const userRole = 'admin';
-    const userRole = 'parent';
+    const userRole = 'admin';
+    // const userRole = 'parent';
     
     // const userRole = localStorage.getItem('role');  
 
