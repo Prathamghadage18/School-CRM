@@ -69,7 +69,7 @@ const Footer = () => {
                   <a
                     key={index}
                     href="#"
-                    className="w-10 h-10 rounded-full bg-black flex items-center justify-center cursor-pointer hover:bg-primary transition-all duration-300 group"
+                    className="w-10 h-10 rounded-full bg-black hover:border flex items-center justify-center cursor-pointer hover:bg-primary hover:animate-bounce transition-all duration-200 group"
                   >
                     <Icon className="text-white group-hover:text-white transition-colors" />
                   </a>

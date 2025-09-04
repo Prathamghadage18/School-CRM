@@ -7,19 +7,19 @@ const TeacherHome = () => {
     <div className="sm:p-6 space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
-        <div className=" bg-[conic-gradient(var(--tw-gradient-stops))] from-[#4267ff] via-[#818cf8] to-[#c7d2fe] rounded-xl shadow p-4 text-center">
+        <div className=" bg-[#4267ff] rounded-xl shadow p-4 text-center">
           <h2 className="text-3xl font-bold text-white text-shadow">3</h2>
           <p className="text-white font-semibold">My Classes</p>
         </div>
-        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#3aaa2b] via-[#9bff98] to-[#c7fed3] rounded-xl shadow p-4 text-center ">
+        <div className="bg-[#3aaa2b] rounded-xl shadow p-4 text-center ">
           <h2 className="text-3xl font-bold text-white text-shadow">89</h2>
           <p className="text-white font-semibold">Total Students</p>
         </div>
-        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#8346e5] via-[#9581f8] to-[#e4c7fe] rounded-xl shadow p-4 text-center">
+        <div className="bg-[#8346e5] rounded-xl shadow p-4 text-center">
           <h2 className="text-3xl font-bold text-white text-shadow">24</h2>
           <p className="text-white font-semibold">Materials Shared</p>
         </div>
-        <div className="bg-[conic-gradient(var(--tw-gradient-stops))] from-[#e54646] via-[#f88181] to-[#fec7c7] rounded-xl shadow p-4 text-center">
+        <div className="bg-[#e54646] rounded-xl shadow p-4 text-center">
           <h2 className="text-3xl font-bold text-white text-shadow">7</h2>
           <p className="text-white font-semibold">Pending Grades</p>
         </div>

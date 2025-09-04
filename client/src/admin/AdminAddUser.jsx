@@ -11,7 +11,7 @@ const AdminAddUsers = () => {
     id: "",
     email: "",
     phone: "",
-    password: "",
+    password: "Shree@5456",
     status: "active",
   });
 
@@ -63,7 +63,7 @@ const AdminAddUsers = () => {
         id: "",
         email: "",
         phone: "",
-        password: "",
+        password: "Shree@5456",
         status: "active",
       });
     } catch (err) {

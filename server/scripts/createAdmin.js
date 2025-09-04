@@ -17,7 +17,7 @@ const createAdminUser = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ Connected to database");
+    console.log("Connected to database");
 
     // Check if admin already exists by username (safer than just role)
     const existingAdmin = await User.findOne({
