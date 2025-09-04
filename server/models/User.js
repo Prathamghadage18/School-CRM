@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "principal", "teacher", "parent","student"],
+      enum: ["admin", "principal", "teacher", "parent", "student"],
       required: true,
     },
     firstName: {
@@ -59,6 +60,28 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    //Teacher Specific Fields
+    subjects: [
+      {
+        type: String,
+      },
+    ],
+    classes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Class",
+      },
+    ],
+    isClassTeacher: {
+      type: Boolean,
+      default: false,
+    },
+    qualification: {
+      type: String,
+    },
+    joiningDate: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
@@ -77,6 +100,7 @@ userSchema.index({ rollNumber: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ email: 1 });
 userSchema.index({ isActive: 1 });
+userSchema.plugin(mongoosePaginate);
 
 const User = mongoose.model("User", userSchema);
 

@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import { comparePassword } from "../utils/passwordUtils.js";
+import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
 import { generateToken, formatResponse } from "../utils/helpers.js";
 
 // Login user

@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 import userRoutes from "./routes/users.js";
+import teacherRoutes from "./routes/teacher.js";
 
 // Middleware
 import errorHandler from "./middleware/errorHandler.js";
@@ -63,6 +64,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/teacher", teacherRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
