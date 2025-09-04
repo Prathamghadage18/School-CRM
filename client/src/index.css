@@ -8,12 +8,12 @@ body {
      font-family: "Poppins", sans-serif;
      background-color: aliceblue;
 }
-
 .text-shadow {
      text-shadow: 2px 2px 20px rgb(138, 138, 138);
 }
-
-
+html {
+  scroll-behavior: smooth;
+}
 /* Hide scrollbar */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
