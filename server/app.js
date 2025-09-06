@@ -11,6 +11,8 @@ import authRoutes from "./routes/auth.js";
 import adminRoutes from "./routes/admin.js";
 import userRoutes from "./routes/users.js";
 import teacherRoutes from "./routes/teacher.js";
+import principalRoutes from "./routes/principal.js";
+
 
 // Middleware
 import errorHandler from "./middleware/errorHandler.js";
@@ -65,6 +67,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/teacher", teacherRoutes);
+app.use("/api/principal", principalRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
