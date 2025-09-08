@@ -15,7 +15,7 @@ import { Toaster } from 'sonner';
 const App = () => {
   return (
     <>
-     <Toaster />
+     <Toaster position="top-right"  richColors />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

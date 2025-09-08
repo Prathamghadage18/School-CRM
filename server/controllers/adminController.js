@@ -136,6 +136,168 @@ import { ROLES } from "../config/constants.js";
 //   }
 // };
 
+// my export const createUserCredentials = async (req, res) => {
+//   try {
+//     const {
+//       employeeId,
+//       rollNumber,
+//       role,
+//       firstName,
+//       lastName,
+//       email,
+//       phone,
+//       password,
+//       username: bodyUsername, // optional from frontend
+//     } = req.body;
+
+//     // console.log(
+//     //   employeeId,
+//     //   rollNumber,
+//     //   role,
+//     //   firstName,
+//     //   lastName,
+//     //   email,
+//     //   phone,
+//     //   password,
+//     //   bodyUsername
+//     // );
+
+//     // ✅ Role-based required fields
+//     if ([ROLES.PRINCIPAL, ROLES.TEACHER].includes(role) && !employeeId) {
+//       return res
+//         .status(400)
+//         .json(formatResponse(false, "Employee ID is required."));
+//     }
+
+//     if ([ROLES.PARENT, ROLES.STUDENT].includes(role) && !rollNumber) {
+//       return res
+//         .status(400)
+//         .json(formatResponse(false, "Roll number is required."));
+//     }
+
+//     // ✅ Validate password
+//     const passwordValidation = validatePassword(password);
+//     if (!passwordValidation.isValid) {
+//       return res
+//         .status(400)
+//         .json(formatResponse(false, passwordValidation.message));
+//     }
+
+//     // ✅ For parent role → verify student exists
+//     if (role === ROLES.PARENT) {
+//       const student = await Student.findOne({ rollNumber });
+//       if (!student) {
+//         return res
+//           .status(404)
+//           .json(formatResponse(false, "Student not found."));
+//       }
+//     }
+
+//     // ✅ Username: frontend provided OR generated
+//     const username =
+//       bodyUsername ||
+//       generateUsername(
+//         role,
+//         role === ROLES.PARENT || role === ROLES.STUDENT
+//           ? rollNumber
+//           : employeeId
+//       );
+
+//     // ✅ Check duplicates safely
+//     const orConditions = [];
+//     if (username) orConditions.push({ username });
+//     if (email) orConditions.push({ email });
+//     if (
+//       (role === ROLES.PARENT || role === ROLES.STUDENT) &&
+//       rollNumber
+//     ) {
+//       orConditions.push({ rollNumber });
+//     }
+//     if (
+//       (role === ROLES.PRINCIPAL || role === ROLES.TEACHER) &&
+//       employeeId
+//     ) {
+//       orConditions.push({ employeeId });
+//     }
+
+//     let existingUser = null;
+//     if (orConditions.length > 0) {
+//       existingUser = await User.findOne({ $or: orConditions });
+//     }
+
+//     if (existingUser) {
+//       let conflictField = "User";
+//       if (existingUser.username === username) conflictField = "Username";
+//       else if (existingUser.email === email) conflictField = "Email";
+//       else if (
+//         rollNumber &&
+//         existingUser.rollNumber === rollNumber
+//       )
+//         conflictField = "Roll Number";
+//       else if (
+//         employeeId &&
+//         existingUser.employeeId === employeeId
+//       )
+//         conflictField = "Employee ID";
+
+//       return res
+//         .status(400)
+//         .json(formatResponse(false, `${conflictField} already exists.`));
+//     }
+
+//     // ✅ Hash password
+//     const hashedPassword = await hashPassword(password);
+
+//     // ✅ Create new user (normalize fields)
+//     const newUser = new User({
+//       employeeId:
+//         role === ROLES.PRINCIPAL || role === ROLES.TEACHER
+//           ? employeeId
+//           : undefined,
+//       rollNumber:
+//         role === ROLES.PARENT || role === ROLES.STUDENT
+//           ? rollNumber
+//           : undefined,
+//       username,
+//       password: hashedPassword,
+//       role,
+//       firstName,
+//       lastName,
+//       email: email || undefined,
+//       phone,
+//     });
+
+//     await newUser.save();
+
+//     // ✅ Response
+//     res.status(201).json(
+//       formatResponse(true, "User created successfully.", {
+//         user: {
+//           id: newUser._id,
+//           username: newUser.username,
+//           role: newUser.role,
+//           firstName: newUser.firstName,
+//           lastName: newUser.lastName,
+//           email: newUser.email,
+//           employeeId: newUser.employeeId,
+//           rollNumber: newUser.rollNumber,
+//         },
+//       })
+//     );
+//   } catch (error) {
+//     console.error("Error creating user:", error);
+
+//     if (error.code === 11000) {
+//       return res
+//         .status(400)
+//         .json(formatResponse(false, "Duplicate user detected."));
+//     }
+
+//     res
+//       .status(500)
+//       .json(formatResponse(false, "Error creating user.", error.message));
+//   }
+// };
 export const createUserCredentials = async (req, res) => {
   try {
     const {
@@ -147,117 +309,102 @@ export const createUserCredentials = async (req, res) => {
       email,
       phone,
       password,
-      username: bodyUsername, // optional from frontend
+      username: bodyUsername,
+      // Student fields
+      studentClass,
+      year,
+      studentSubjects,
+      // Teacher fields
+      teacherSubjects,
+      teacherClasses,
+      teacherYears,
+      isClassTeacher,
+      qualification,
+      joiningDate,
     } = req.body;
 
-    console.log(
-      employeeId,
-      rollNumber,
-      role,
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-      bodyUsername
-    );
-
-    // ✅ Role-based required fields
+    // ✅ Required validations
     if ([ROLES.PRINCIPAL, ROLES.TEACHER].includes(role) && !employeeId) {
-      return res
-        .status(400)
-        .json(formatResponse(false, "Employee ID is required."));
+      return res.status(400).json(formatResponse(false, "Employee ID is required."));
     }
-
     if ([ROLES.PARENT, ROLES.STUDENT].includes(role) && !rollNumber) {
-      return res
-        .status(400)
-        .json(formatResponse(false, "Roll number is required."));
+      return res.status(400).json(formatResponse(false, "Roll number is required."));
     }
 
-    // ✅ Validate password
-    const passwordValidation = validatePassword(password);
-    if (!passwordValidation.isValid) {
-      return res
-        .status(400)
-        .json(formatResponse(false, passwordValidation.message));
-    }
-
-    // ✅ For parent role → verify student exists
-    if (role === ROLES.PARENT) {
-      const student = await Student.findOne({ rollNumber });
-      if (!student) {
-        return res
-          .status(404)
-          .json(formatResponse(false, "Student not found."));
+    // ✅ Student validations
+    if (role === ROLES.STUDENT) {
+      if (!studentClass) {
+        return res.status(400).json(formatResponse(false, "Student class is required."));
+      }
+      if (!year || isNaN(Number(year)) || year.toString().length !== 4) {
+        return res.status(400).json(formatResponse(false, "Valid year (e.g., 2025) is required."));
+      }
+      if (!Array.isArray(studentSubjects) || studentSubjects.length === 0) {
+        return res.status(400).json(formatResponse(false, "At least one subject is required."));
       }
     }
 
-    // ✅ Username: frontend provided OR generated
+    // ✅ Password validation
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.isValid) {
+      return res.status(400).json(formatResponse(false, passwordValidation.message));
+    }
+
+    // ✅ Parent should have linked student
+    if (role === ROLES.PARENT) {
+      const student = await Student.findOne({ rollNumber });
+      if (!student) {
+        return res.status(404).json(formatResponse(false, "Student not found."));
+      }
+    }
+
+    // ✅ Generate username
     const username =
       bodyUsername ||
       generateUsername(
         role,
-        role === ROLES.PARENT || role === ROLES.STUDENT
-          ? rollNumber
-          : employeeId
+        role === ROLES.PARENT || role === ROLES.STUDENT ? rollNumber : employeeId
       );
 
-    // ✅ Check duplicates safely
+    // ✅ Duplicate check
     const orConditions = [];
     if (username) orConditions.push({ username });
     if (email) orConditions.push({ email });
-    if (
-      (role === ROLES.PARENT || role === ROLES.STUDENT) &&
-      rollNumber
-    ) {
+    if ((role === ROLES.PARENT || role === ROLES.STUDENT) && rollNumber) {
       orConditions.push({ rollNumber });
     }
-    if (
-      (role === ROLES.PRINCIPAL || role === ROLES.TEACHER) &&
-      employeeId
-    ) {
+    if ((role === ROLES.PRINCIPAL || role === ROLES.TEACHER) && employeeId) {
       orConditions.push({ employeeId });
     }
 
-    let existingUser = null;
-    if (orConditions.length > 0) {
-      existingUser = await User.findOne({ $or: orConditions });
-    }
-
+    const existingUser = orConditions.length > 0 ? await User.findOne({ $or: orConditions }) : null;
     if (existingUser) {
       let conflictField = "User";
       if (existingUser.username === username) conflictField = "Username";
       else if (existingUser.email === email) conflictField = "Email";
-      else if (
-        rollNumber &&
-        existingUser.rollNumber === rollNumber
-      )
-        conflictField = "Roll Number";
-      else if (
-        employeeId &&
-        existingUser.employeeId === employeeId
-      )
-        conflictField = "Employee ID";
+      else if (rollNumber && existingUser.rollNumber === rollNumber) conflictField = "Roll Number";
+      else if (employeeId && existingUser.employeeId === employeeId) conflictField = "Employee ID";
 
-      return res
-        .status(400)
-        .json(formatResponse(false, `${conflictField} already exists.`));
+      return res.status(400).json(formatResponse(false, `${conflictField} already exists.`));
+    }
+
+    // ✅ Validate teacher subjects format
+    if (role === ROLES.TEACHER && teacherSubjects) {
+      const invalid = teacherSubjects.some((s) => !s.name || !s.teachingTime);
+      if (invalid) {
+        return res
+          .status(400)
+          .json(formatResponse(false, "Each teacher subject must include both name and teachingTime."));
+      }
     }
 
     // ✅ Hash password
     const hashedPassword = await hashPassword(password);
 
-    // ✅ Create new user (normalize fields)
+    // ✅ Build user object
     const newUser = new User({
-      employeeId:
-        role === ROLES.PRINCIPAL || role === ROLES.TEACHER
-          ? employeeId
-          : undefined,
-      rollNumber:
-        role === ROLES.PARENT || role === ROLES.STUDENT
-          ? rollNumber
-          : undefined,
+      employeeId: [ROLES.PRINCIPAL, ROLES.TEACHER].includes(role) ? employeeId : undefined,
+      rollNumber: [ROLES.PARENT, ROLES.STUDENT].includes(role) ? rollNumber : undefined,
       username,
       password: hashedPassword,
       role,
@@ -265,11 +412,29 @@ export const createUserCredentials = async (req, res) => {
       lastName,
       email: email || undefined,
       phone,
+      studentDetails:
+        role === ROLES.STUDENT
+          ? {
+              classes: [studentClass], // ✅ FIXED
+              year,
+              subjects: studentSubjects, // [{ name, time }]
+            }
+          : undefined,
+      teacherDetails:
+        role === ROLES.TEACHER
+          ? {
+              subjects: teacherSubjects, // [{ name, teachingTime }]
+              classes: teacherClasses || [],
+              years: teacherYears || [],
+              isClassTeacher,
+              qualification,
+              joiningDate,
+            }
+          : undefined,
     });
 
     await newUser.save();
 
-    // ✅ Response
     res.status(201).json(
       formatResponse(true, "User created successfully.", {
         user: {
@@ -281,23 +446,20 @@ export const createUserCredentials = async (req, res) => {
           email: newUser.email,
           employeeId: newUser.employeeId,
           rollNumber: newUser.rollNumber,
+          studentDetails: newUser.studentDetails,
+          teacherDetails: newUser.teacherDetails,
         },
       })
     );
   } catch (error) {
     console.error("Error creating user:", error);
-
     if (error.code === 11000) {
-      return res
-        .status(400)
-        .json(formatResponse(false, "Duplicate user detected."));
+      return res.status(400).json(formatResponse(false, "Duplicate user detected."));
     }
-
-    res
-      .status(500)
-      .json(formatResponse(false, "Error creating user.", error.message));
+    res.status(500).json(formatResponse(false, "Error creating user.", error.message));
   }
 };
+
 
 // Get all users with filtering and pagination
 export const getUsers = async (req, res) => {

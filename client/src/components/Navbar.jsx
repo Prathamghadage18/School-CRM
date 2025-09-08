@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { logout, selectCurrentUserRole } from '../redux/authSlice';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { toast } from 'sonner';
+import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -59,7 +60,7 @@ const Navbar = () => {
         } transition-all duration-300`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2 cursor-pointer">
@@ -68,7 +69,7 @@ const Navbar = () => {
                 alt="logo"
                 className="w-12 h-12 object-contain scale-130 transition-transform duration-300 hover:rotate-12"
               />
-              <span className="hidden md:block text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+              <span className="hidden md:block text-xl uppercase font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent">
                 School CRM
               </span>
             </Link>
@@ -135,57 +136,74 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <>
-          <div
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-          />
-          <div className="fixed top-0 right-0 w-80 h-full dark:bg-[#090d13] bg-white shadow-xl z-50 overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
-              <div className="flex items-center gap-2">
-                <img src={""} alt="logo" className="w-10 h-10 object-contain" />
-                <span className="text-xl font-bold text-primary">Project</span>
-              </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary focus:outline-none"
-              >
-                <HiX className="h-6 w-6" />
-              </button>
-            </div>
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black z-40 lg:hidden"
+            />
 
-            <div className="p-4">
-              <ul className="space-y-4">
-                {navLinks.map((link) => (
-                  <li key={link.label}>
+            {/* Sidebar */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.4 }}
+              className="fixed top-0 right-0 w-80 h-full dark:bg-[#090d13] bg-white shadow-xl z-50 overflow-y-auto"
+            >
+              <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+                <div className="flex items-center gap-2">
+                  <img src={""} alt="logo" className="w-10 h-10 object-contain" />
+                  <span className="text-xl font-bold text-primary">Project</span>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary focus:outline-none"
+                >
+                  <HiX className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="p-4">
+                <ul className="space-y-4">
+                  {navLinks.map((link) => (
                     <a
-                      href={link.path}
-                      onClick={(e) => {
-                        if (link.path.startsWith("/#")) {
-                          const targetId = link.path.replace("/#", "");
-                          handleScroll(e, targetId);
-                        }
-                      }}
-                      className={`relative px-3 py-2 text-sm font-medium ${location.hash === link.path.replace("/", "")
-                        ? 'text-primary'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-primary'
-                        } transition-colors duration-300`}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                        href={link.path}
+                        onClick={(e) => {
+                          if (link.path.startsWith("/#")) {
+                            const targetId = link.path.replace("/#", "");
+                            handleScroll(e, targetId);
+                          }
+                        }}
+                        className={`relative  px-3 py-2 text-sm font-medium w-full  ${location.hash === link.path.replace("/", "")
+                            ? ""
+                            : "text-gray-700 "
+                          } transition-colors duration-300`}
+                      >
+                    <li key={link.label} className=' w-full hover:text-primary cursor-pointer hover:border-b border-primary transition-all duration-200 ease-in-out'>
+                      
+                        {link.label}
+                     
+                    </li>
+                     </a>
+                  ))}
+                </ul>
 
-              </ul>
-
-              <div className="mt-8 space-y-4">
-                <CheckUserExists />
+                <div className="mt-8 space-y-4">
+                  <CheckUserExists />
+                </div>
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
     </nav>
   );
 };
@@ -238,13 +256,13 @@ const CheckUserExists = () => {
 
       <button
         onClick={handleLogout}
-        className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-md hover:shadow-lg ml-4 md:ml-1"
+        className="px-4 py-1 rounded-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-md hover:shadow-lg ml-4 md:ml-1"
       >
         Logout
       </button>
       <Link
         to="/login"
-        className="px-4 py-2 rounded-md ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+        className="px-4 py-1 rounded-sm ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
       >
         Login
       </Link>
