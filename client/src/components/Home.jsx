@@ -12,6 +12,7 @@ import {
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
+import Slider from "./ui/Slider";
 
 const HomePage = () => {
 
@@ -40,59 +41,57 @@ const HomePage = () => {
     },
   ];
 
+  const slideImages = [
+  {
+    img: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "School Library",
+    description: "Experience the sun, sand, and surf at the beautiful beaches. Relax and unwind with a variety of water sports and seaside activities.",
+    buttonText1: "Read More",
+    buttonText2: "See More"
+  },
+  {
+    img: "https://images.unsplash.com/photo-1705727210721-961cc64a6895?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "School lab",
+    description: "Immerse yourself in the lush greenery and wildlife of the forest. Enjoy hiking trails, wildlife spotting, and nature photography.",
+    buttonText1: "Read More",
+    buttonText2: "See More"
+  },
+  {
+    img: "https://images.unsplash.com/photo-1566938089211-5821c49b3548?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "school playground",
+    description: "Explore the vibrant city life, rich culture, and modern attractions. Visit historical landmarks, museums, and enjoy the nightlife.",
+    buttonText1: "Read More",
+    buttonText2: "See More"
+  },
+  {
+    img: "https://plus.unsplash.com/premium_vector-1720710527301-367d09920932?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "School life",
+    description: "Experience the sun, sand, and surf at the beautiful beaches. Relax and unwind with a variety of water sports and seaside activities.",
+    buttonText1: "Read More",
+    buttonText2: "See More"
+  },
+   {
+    img: "https://images.unsplash.com/photo-1729655917606-e7bc2db6acb3?q=80&w=1089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    title: "School events",
+    description: "Experience the sun, sand, and surf at the beautiful beaches. Relax and unwind with a variety of water sports and seaside activities.",
+    buttonText1: "Read More",
+    buttonText2: "See More"
+  },
+];
+
   return (
     <>
       <Navbar />
 
       {/* 🌟 Hero Section */}
-      <section id="home" className=" relative z-20  w-full h-screen flex justify-center items-center bg-white text-gray-900 py-20 border-b">
-        {/* Background Image with Overlay */}
-        <div className="absolute z-10 inset-0 w-full h-full">
-          <img
-            src="https://media.istockphoto.com/id/1366797961/photo/interior-views-of-an-empty-japanese-style-classroom.jpg?b=1&s=170667a&w=0&k=20&c=9VXDSLlX2Y-TiuO8AKSLKaN0-TKYZ0CAZWj1dhAckkQ="
-            alt="School CRM Illustration"
-            className="object-cover w-full h-full"
-          />
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-blue-950 bg-opacity-70"></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-20 max-w-6xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-10">
-          {/* Left Content */}
-          <div className=" text-white text-center">
-            <h1 className="text-4xl sm:text-6xl font-bold leading-tight mb-6">
-              School CRM System
-            </h1>
-            <p className="text-base sm:text-lg text-gray-200 mb-6">
-              A modern, scalable, and user-friendly school management platform built
-              to simplify academic and administrative processes while fostering
-              transparency and collaboration. The system provides role-based access
-              tailored to Principals, Teachers, Students, and Parents, ensuring each
-              user has the right tools at their fingertips.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                to="/login"
-                className="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-primary transition"
-              >
-                🚀 Get Started
-              </Link>
-              <a
-                href="/#features"
-                className="border border-white text-white px-5 py-2 rounded-lg font-semibold shadow hover:bg-primary hover:border-primary transition"
-              >
-                👥 Explore Roles
-              </a>
-            </div>
-          </div>
-        </div>
+      <section id="home" className=" relative overflow-hidden z-20  w-full h-screen flex justify-center items-center">
+          <Slider slideImages={slideImages}/>
       </section>
 
 
 
       {/* ⭐ Stats Section */}
-      <section className=" relative z-20 bg-blue-50 py-14 px-6">
+      <section className=" relative z-20 bg-primaryLight py-14 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 grid-cols-2 gap-6 text-center">
           <StatCard number="50+" label="Schools Onboarded" />
           <StatCard number="500+" label="Teachers Registered" />
@@ -125,11 +124,11 @@ const HomePage = () => {
         </section>
       </div>
 
-      <section id="mission-vision-focus" className=" relative z-20  py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6 text-center">
+      <section id="mission-vision-focus" className=" relative z-20  py-20 bg-primaryLight">
+        <div className="max-w-6xl mx-auto px-6 sm:text-center">
           {/* Section Title */}
-          <h2 className="text-4xl font-bold  mb-4">Our Mission, Vision & Focus</h2>
-          <p className="text-gray-600 max-w-4xl mx-auto mb-12">
+          <h2 className="text-4xl font-bold mb-4 text-primary">Our Mission, Vision & Focus</h2>
+          <p className="text-gray-600 max-w-4xl text-justify mx-auto mb-12">
             We are committed to creating a transformative school CRM that empowers
             educators, engages students, and connects parents through technology-driven
             solutions.
@@ -138,12 +137,12 @@ const HomePage = () => {
           {/* Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Mission Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-primary">
+            <div className="group relative  rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl bg-blue-500">
               <div className="relative z-10">
-                <h3 className="text-2xl font-semibold text-primary mb-4 group-hover:text-white">
+                <h3 className="text-2xl font-semibold  mb-4 text-white">
                   🎯 Mission
                 </h3>
-                <p className="text-gray-600 group-hover:text-gray-100">
+                <p className="text-gray-100">
                   To simplify academic and administrative workflows while promoting
                   collaboration between principals, teachers, students, and parents
                   through a seamless digital platform.
@@ -152,12 +151,12 @@ const HomePage = () => {
             </div>
 
             {/* Vision Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-green-600">
+            <div className="group relative  rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl bg-green-500">
               <div className="relative z-10">
-                <h3 className="text-2xl font-semibold text-green-700 mb-4 group-hover:text-white">
+                <h3 className="text-2xl font-semibold  mb-4 text-white">
                   🌍 Vision
                 </h3>
-                <p className="text-gray-600 group-hover:text-gray-100">
+                <p className="text-gray-100">
                   To revolutionize education management by building smart, scalable,
                   and inclusive systems that nurture transparency, efficiency, and
                   academic excellence for the future.
@@ -166,12 +165,12 @@ const HomePage = () => {
             </div>
 
             {/* Focus Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-purple-600">
+            <div className="group relative rounded-2xl shadow-lg overflow-hidden p-8 transition duration-300 hover:scale-105 hover:shadow-xl bg-purple-500">
               <div className="relative z-10">
-                <h3 className="text-2xl font-semibold text-purple-700 mb-4 group-hover:text-white">
+                <h3 className="text-2xl font-semibold  mb-4 text-white">
                   🔍 Focus
                 </h3>
-                <p className="text-gray-600 group-hover:text-gray-100">
+                <p className="text-gray-100">
                   We focus on delivering user-friendly solutions, ensuring data security,
                   and creating meaningful insights that empower decision-making and
                   enhance the learning journey.
@@ -185,8 +184,8 @@ const HomePage = () => {
 
 
       {/* Features Section */}
-      <section id="features" className=" relative z-20  py-16 px-6 bg-white">
-        <h2 className="text-3xl font-bold text-center  mb-10">
+      <section id="features" className=" relative z-20  py-16 px-6 [background-image:url('https://d33wubrfki0l68.cloudfront.net/5c71bc45356f2b550ac87b19eb115007e5b0953b/78d8d/static/waves_violet-37d9022b34fe32b9a566104ee1b0b8e9.jpg')] object-cover bg-cover bg-center bg-fixed">
+        <h2 className="text-4xl font-bold sm:text-center text-white  mb-10">
           Core Features
         </h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -229,7 +228,7 @@ const HomePage = () => {
       </section>
 
       <section id="service" className=" relative z-20  py-16 bg-white">
-        <h2 className="text-4xl font-bold text-center mb-10">Our Services</h2>
+        <h2 className="text-4xl font-bold sm:text-center ml-4 sm:ml-0 mb-10">Our Services</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
           {services.map((s, ind) => (
             <div
@@ -252,7 +251,7 @@ const HomePage = () => {
               </div>
 
               {/* Animated Bottom Border */}
-              <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-primary transition-all duration-300 group-hover:w-full"></span>
             </div>
 
           ))}
@@ -260,8 +259,8 @@ const HomePage = () => {
       </section>
 
 
-      <section className=" relative z-20  py-16 bg-gray-50">
-        <h2 className="text-4xl font-bold text-center mb-10">What Our Members Say</h2>
+      <section className=" relative z-20  py-16 px-6 [background-image:url('https://d33wubrfki0l68.cloudfront.net/5c71bc45356f2b550ac87b19eb115007e5b0953b/78d8d/static/waves_violet-37d9022b34fe32b9a566104ee1b0b8e9.jpg')] object-cover bg-cover bg-center bg-fixed">
+        <h2 className="text-4xl font-bold text-center text-white mb-10">What Our Members Say</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
           {testimonials.map((t, i) => (
             <div key={i} className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition text-center">
@@ -337,7 +336,7 @@ const HomePage = () => {
 };
 
 const FeatureCard = ({ image, title, desc }) => (
-  <div className="bg-white border rounded-xl p-6 text-center shadow-sm hover:shadow-md transition overflow-hidden group">
+  <div className="bg-white/90 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-lg hover:shadow-xl text-center  transition overflow-hidden group">
 
     <div className="relative -z-0 top-10 group-hover:inset-5 inset-0 duration-200 ">
       {/* Circle 1 - Pink/Purple */}
