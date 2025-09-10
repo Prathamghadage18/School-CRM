@@ -119,9 +119,7 @@ export default function ParentDashboard() {
               <button className="flex-1 text-white bg-red-500 px-4 py-2 rounded-md">
                 Logout
               </button>
-              <button className="flex-1 text-white bg-primary px-4 py-2 rounded-md">
-                Login
-              </button>
+             
             </div>
           </div>
         </div>

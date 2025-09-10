@@ -16,34 +16,34 @@ const App = () => {
   return (
     <>
      <Toaster position="top-right"  richColors />
+      
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        {/* <Route path='/role-selection' element={<SignupRoleSelection />} /> */}
-        {/* <Route path='/student' element={<StudentRegistrationForm />} /> */}
+  <Route path='/' element={<Home />} />
+  <Route path='/login' element={<Login />} />
 
-        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-          <Route path='/admin-dashboard/*' element={<Dashboard />} />
-        </Route>
+  <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+    <Route path='/admin-dashboard/*' element={<Dashboard />} />
+  </Route>
 
-        {/* <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
-          <Route path='/student-dashboard/*' element={<StudentDashboard />} />
-        </Route> */}
+  <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
+    <Route path='/student-dashboard/*' element={<StudentDashboard />} />
+  </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
-          <Route path='/teacher-dashboard/*' element={<TeacherDashboard />} />
-        </Route>
+  <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>
+    <Route path='/teacher-dashboard/*' element={<TeacherDashboard />} />
+  </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={["parent"]} />}>
-          <Route path='/parent-dashboard/*' element={<ParentDashboard />} />
-        </Route>
+  <Route element={<ProtectedRoute allowedRoles={["parent"]} />}>
+    <Route path='/parent-dashboard/*' element={<ParentDashboard />} />
+  </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={["principle"]} />}>
-          <Route path='/principle-dashboard/*' element={<PrincipleDashboard />} />
-        </Route>
-        
-        <Route path='*' element={<h1>Page Not Found</h1>} />
-      </Routes>
+  <Route element={<ProtectedRoute allowedRoles={["principal"]} />}>
+    <Route path='/principal-dashboard/*' element={<PrincipleDashboard />} />
+  </Route>
+
+  <Route path='*' element={<h1>Page Not Found</h1>} />
+</Routes>
+
 
     </>
   )

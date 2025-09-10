@@ -2,45 +2,51 @@ import React, { useState } from "react";
 import { FaUserTie } from "react-icons/fa";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/authSlice";  // adjust path if needed
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Login = () => {
-  const [username, setUsername] = useState("admin");
-  const [pwd, setPwd] = useState("admin123");
+  const [username, setUsername] = useState("student teacher principle admin ");
+  const [pwd, setPwd] = useState("Shree@5456");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  // console.log(
-  //   " user@gmail.com user123456 /n admin@school.com NewAdmin@123 /n subadmin@cygen.com SubAdmin@123 "
-  // );
+  const dispatch = useDispatch();
 
   const Submit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/auth/login", {
-        username: username, 
+      const response = await axios.post(`${BASE_URL}/api/auth/login`, {
+        username,
         password: pwd,
       });
 
-
       console.log(response.data);
 
-      // ✅ Correct role path
+      dispatch(
+        login({
+          token: response.data.token,
+          user: response.data.data.user,
+        })
+      );
+
+      // ✅ Navigate by role
       const userRole = response.data.data.user.role;
 
-      if (userRole === "principle") {
-        navigate("/principle-dashboard");
+      if (userRole === "principal") {
+        navigate("/principal-dashboard");
       } else if (userRole === "teacher") {
         navigate("/teacher-dashboard");
       } else if (userRole === "admin") {
         navigate("/admin-dashboard");
-      } else if (userRole === "parent") {
-        navigate("/parent-dashboard");
+      } else if (userRole === "student") {
+        navigate("/student-dashboard"); // ✅ correct
       }
+
     } catch (err) {
       const errMsg =
         err.response?.data?.message || "Server error. Please try later.";
@@ -69,7 +75,7 @@ const Login = () => {
           <form className="mt-6" onSubmit={Submit}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-500 mb-1">
-                Username 
+                Username
               </label>
               <input
                 type="text"
@@ -111,8 +117,8 @@ const Login = () => {
               type="submit"
               disabled={loading}
               className={`w-full py-2 rounded-3xl font-medium transition-colors ${loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-primary text-white hover:bg-primary"
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-primary text-white hover:bg-primary"
                 }`}
             >
               {loading ? "Signing In..." : "Sign In"}

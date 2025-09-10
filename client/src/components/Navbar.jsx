@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { HiX } from 'react-icons/hi';
 import { FiMenu } from 'react-icons/fi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// import Logo from '../assets/logo.png';
-// import { logout, selectCurrentUserRole } from '../redux/authSlice';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { toast } from 'sonner';
+import Logo from '../assets/logo.png';
+import { logout, selectCurrentUserRole, isAuthenticated } from '../redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -16,118 +16,78 @@ const navLinks = [
   { path: '/#contact', label: 'Contact Us' },
 ];
 
-
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  // ✅ Get initial theme from localStorage
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
-
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  // ✅ Apply theme on page load and whenever theme changes
   useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const newTheme = !theme;
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
-  };
-
-  const handleScroll = (e, targetId) => {
-    e.preventDefault();
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsOpen(false); // close mobile menu if open
-  };
-
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <nav
-      className={`w-full dark:bg-[#090d13] bg-white sticky top-0 z-50 ${scrolled ? 'shadow-lg dark:shadow-gray-900/50' : ''
-        } transition-all duration-300`}
+      className={`w-full fixed top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? " bg-gradient-to-b from-bgDarkColor via-bgDarkColor to-[#111111cd]"
+          : "bg-transparent"
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-4">
         <div className="flex justify-between items-center h-14">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2 cursor-pointer">
+            <Link to="/" className="flex items-center gap-1 cursor-pointer">
               <img
-                src={'logo.png'}
+                src={Logo}
                 alt="logo"
                 className="w-12 h-12 object-contain scale-130 transition-transform duration-300 hover:rotate-12"
               />
-              <span className="hidden md:block text-xl uppercase font-bold bg-gradient-to-r from-primary to-primary bg-clip-text text-transparent">
-                School CRM
+              <span className=" text-white  text-xl uppercase font-bold ">
+                Scout Team
               </span>
             </Link>
+
+            {/* Desktop Navigation */}
+            <ul className="hidden lg:flex space-x-4 ml-8">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.path}
+                    onClick={(e) => {
+                      if (link.path.startsWith("/#")) {
+                        e.preventDefault();
+                        const targetId = link.path.replace("/#", "");
+                        const element = document.getElementById(targetId);
+                        if (element) {
+                          element.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }
+                    }}
+                    className={`relative px-3 py-2 text-sm font-medium text-white transition-colors duration-300`}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          {/* Desktop Navigation */}
-          <ul className="hidden lg:flex space-x-4">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.path}
-                  onClick={(e) => {
-                    if (link.path.startsWith("/#")) {
-                      const targetId = link.path.replace("/#", "");
-                      handleScroll(e, targetId);
-                    }
-                  }}
-                  className={`relative px-3 py-2 text-sm font-medium ${location.hash === link.path.replace("/", "")
-                    ? ' '
-                    : 'text-gray-700  hover:text-primary'
-                    } transition-colors duration-300`}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-
-          </ul>
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            {/* <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme ? <BsSunFill /> : <BsMoonFill />}
-            </button> */}
-
             <CheckUserExists />
-
           </div>
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center gap-4">
-
-            {/* <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-              aria-label="Toggle theme"
-            >
-              {theme ? <BsSunFill /> : <BsMoonFill />}
-            </button> */}
-
             <button
               onClick={() => setIsOpen(true)}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-primary focus:outline-none"
-              aria-label="Open menu"
+              className="p-2 rounded-md text-gray-100 hover:text-primary focus:outline-none"
+              title="Open menu"
             >
               <FiMenu className="h-6 w-6" />
             </button>
@@ -155,16 +115,16 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.4 }}
-              className="fixed top-0 right-0 w-80 h-full dark:bg-[#090d13] bg-white shadow-xl z-50 overflow-y-auto"
+              className="fixed top-0 right-0 w-80 h-full bg-bgDarkColor shadow-xl z-50 overflow-y-auto"
             >
-              <div className="flex items-center justify-between p-4 border-b dark:border-gray-700">
+              <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-2">
-                  <img src={""} alt="logo" className="w-10 h-10 object-contain" />
-                  <span className="text-xl font-bold text-primary">Project</span>
+                  <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
+                  <span className="text-xl font-bold text-white uppercase">Scout Team</span>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-primary focus:outline-none"
+                  className="p-2 rounded-md text-gray-300 hover:text-primary focus:outline-none"
                 >
                   <HiX className="h-6 w-6" />
                 </button>
@@ -174,24 +134,27 @@ const Navbar = () => {
                 <ul className="space-y-4">
                   {navLinks.map((link) => (
                     <a
-                        href={link.path}
-                        onClick={(e) => {
-                          if (link.path.startsWith("/#")) {
-                            const targetId = link.path.replace("/#", "");
-                            handleScroll(e, targetId);
+                      key={link.label}
+                      href={link.path}
+                      onClick={(e) => {
+                        if (link.path.startsWith("/#")) {
+                          e.preventDefault();
+                          const targetId = link.path.replace("/#", "");
+                          const element = document.getElementById(targetId);
+                          if (element) {
+                            element.scrollIntoView({ behavior: "smooth" });
                           }
-                        }}
-                        className={`relative  px-3 py-2 text-sm font-medium w-full  ${location.hash === link.path.replace("/", "")
-                            ? ""
-                            : "text-gray-700 "
-                          } transition-colors duration-300`}
-                      >
-                    <li key={link.label} className=' w-full hover:text-primary cursor-pointer hover:border-b border-primary transition-all duration-200 ease-in-out'>
-                      
-                        {link.label}
-                     
-                    </li>
-                     </a>
+                        }
+                        setIsOpen(false);
+                      }}
+                      className={`relative block px-3 py-2 text-sm font-medium text-gray-200 ${
+                        location.hash === link.path.replace("/", "")
+                          ? ""
+                          : "text-gray-200 hover:text-primary"
+                      }`}
+                    >
+                      {link.label}
+                    </a>
                   ))}
                 </ul>
 
@@ -203,69 +166,55 @@ const Navbar = () => {
           </>
         )}
       </AnimatePresence>
-
     </nav>
   );
 };
 
 export default Navbar;
 
+/* ------------------ USER LOGIN/LOGOUT COMPONENT ------------------ */
 const CheckUserExists = () => {
-  // const userRole = useSelector(selectCurrentUserRole);
-  // const dispatch = useDispatch();
+  const userRole = useSelector(selectCurrentUserRole);
+  const auth = useSelector(isAuthenticated);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   // console.log(`Current user role: ${userRole}`);
-  // }, [userRole]);
-
   const handleLogout = () => {
-    // dispatch(logout()); // clear user in Redux
-    // toast.success("Logout Successfully");
-    navigate("/login"); // redirect to login
+    dispatch(logout());
+    toast.success("Logout Successfully");
+    navigate("/login");
   };
 
-  // if (!userRole) {
-  //   return (
-  //     <>
-  //       <Link
-  //         to="/login"
-  //         className="px-4 py-2 rounded-md text-sm font-medium text-primary border border-primary hover:bg-primary hover:text-white transition-colors"
-  //       >
-  //         Login
-  //       </Link>
+  if (!auth) {
+    // Not logged in
+    return (
+      <>
+        <Link
+          to="/login"
+          className="px-4 py-1 rounded-sm text-sm font-medium text-white  bg-primary  transition-colors"
+        >
+          Sign In
+        </Link>
+        
+      </>
+    );
+  }
 
-  //       <Link
-  //         to="/signup"
-  //         className="px-4 py-2 rounded-md ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
-  //       >
-  //         Sign Up
-  //       </Link>
-  //     </>
-  //   );
-  // }
-
+  // Logged in
   return (
     <>
-      {/* <Link
-        // to={`/${userRole}-dashboard`}
-        className="px-4 py-2 rounded-md text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+      <Link
+        to={`/${userRole}-dashboard`}
+        className="px-4 py-1  text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
       >
         Dashboard
-      </Link> */}
-
+      </Link>
       <button
         onClick={handleLogout}
-        className="px-4 py-1 rounded-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-md hover:shadow-lg ml-4 md:ml-1"
+        className="px-4 py-1  text-sm font-medium text-white bg-red-500 hover:bg-red-600 transition-colors shadow-md hover:shadow-lg ml-2"
       >
         Logout
       </button>
-      <Link
-        to="/login"
-        className="px-4 py-1 rounded-sm ml-2 sm:ml-0 text-sm font-medium text-white bg-primary hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
-      >
-        Login
-      </Link>
     </>
   );
 };
