@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 const AdminHome = () => {
   const stats = [
+    { title: "Total Users", value: 1100, icon: <FaUsers />, color: "bg-orange-100 text-orange-600", link: "/admin/parents" },
     { title: "Students", value: 1200, icon: <FaUserGraduate />, color: "bg-blue-100 text-blue-600", link: "/admin/students" },
     { title: "Teachers", value: 85, icon: <FaChalkboardTeacher />, color: "bg-green-100 text-green-600", link: "/admin/teachers" },
     { title: "Principals", value: 5, icon: <FaUserTie />, color: "bg-purple-100 text-purple-600", link: "/admin/principals" },
-    { title: "Parents", value: 1100, icon: <FaUsers />, color: "bg-orange-100 text-orange-600", link: "/admin/parents" },
   ];
 
   return (

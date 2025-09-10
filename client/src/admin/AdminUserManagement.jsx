@@ -1,15 +1,18 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { selectCurrentToken } from "../redux/authSlice";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const AdminUserManagement = () => {
   const [users, setUsers] = useState([]);
+  const token = useSelector(selectCurrentToken);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-        const response = await axios.get("http://localhost:5000/api/admin/users", {
+        const response = await axios.get(`${BASE_URL}/api/admin/users`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log(response.data.data.users);
@@ -24,9 +27,9 @@ const AdminUserManagement = () => {
 
   const toggleStatus = async (id) => {
   try {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+    
     const response = await axios.patch(
-      `http://localhost:5000/api/admin/users/${id}/toggle-status`,
+      `${BASE_URL}/api/admin/users/${id}/toggle-status`,
       {},
       {
         headers: { Authorization: `Bearer ${token}` },

@@ -387,14 +387,18 @@ export const createUserCredentials = async (req, res) => {
 
       return res.status(400).json(formatResponse(false, `${conflictField} already exists.`));
     }
-
     // ✅ Validate teacher subjects format
-    if (role === ROLES.TEACHER && teacherSubjects) {
-      const invalid = teacherSubjects.some((s) => !s.name || !s.teachingTime);
-      if (invalid) {
+    if (role === ROLES.TEACHER) {
+      if (
+        !Array.isArray(teacherSubjects) ||
+        teacherSubjects.length === 0 ||
+        teacherSubjects.some(
+          (s) => !s.subject || s.subject.trim() === "" // validate subject is not empty
+        )
+      ) {
         return res
           .status(400)
-          .json(formatResponse(false, "Each teacher subject must include both name and teachingTime."));
+          .json(formatResponse(false, "least one valid subject is required."));
       }
     }
 
@@ -415,21 +419,24 @@ export const createUserCredentials = async (req, res) => {
       studentDetails:
         role === ROLES.STUDENT
           ? {
-              classes: [studentClass], // ✅ FIXED
-              year,
-              subjects: studentSubjects, // [{ name, time }]
-            }
+            classes: [studentClass], // ✅ FIXED
+            year,
+            subjects: studentSubjects, // [{ name, time }]
+          }
           : undefined,
       teacherDetails:
         role === ROLES.TEACHER
           ? {
-              subjects: teacherSubjects, // [{ name, teachingTime }]
-              classes: teacherClasses || [],
-              years: teacherYears || [],
-              isClassTeacher,
-              qualification,
-              joiningDate,
-            }
+            subjects: teacherSubjects.map((s) => ({
+              name: s.subject,
+              teachingTime: s.time,
+            })),
+            classes: teacherClasses || [],
+            years: teacherYears || [],
+            isClassTeacher,
+            qualification,
+            joiningDate,
+          }
           : undefined,
     });
 

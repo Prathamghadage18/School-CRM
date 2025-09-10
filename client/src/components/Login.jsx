@@ -8,7 +8,7 @@ import { login } from "../redux/authSlice";  // adjust path if needed
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Login = () => {
-  const [username, setUsername] = useState("student teacher principle admin ");
+  const [username, setUsername] = useState("student/teacher/principle/admin");
   const [pwd, setPwd] = useState("Shree@5456");
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ const Login = () => {
 
       dispatch(
         login({
-          token: response.data.token,
+          token: response.data.data.token,
           user: response.data.data.user,
         })
       );

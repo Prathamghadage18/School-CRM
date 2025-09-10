@@ -182,7 +182,7 @@ const userSchema = new mongoose.Schema(
     teacherDetails: {
       subjects: [
         {
-          name: { type: String, required: true, lowercase: true, trim: true },
+          name: { type: String,  lowercase: true, trim: true },
           teachingTime: { type: String, trim: true },
         },
       ],
