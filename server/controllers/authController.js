@@ -9,10 +9,11 @@ export const login = async (req, res) => {
     console.log("credentials",username, password)
 
     // Check if user exists
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(401).json(formatResponse(false, "Invalid credentials"));
-    }
+    // Check if user exists (and include password)
+const user = await User.findOne({ username }).select("+password");
+if (!user) {
+  return res.status(401).json(formatResponse(false, "Invalid credentials"));
+}
 
     // Check if user is active
     if (!user.isActive) {
@@ -41,18 +42,18 @@ export const login = async (req, res) => {
 
     // Return user info and token
     res.json(
-      formatResponse(true, "Login successful", {
-        token,
-        user: {
-          id: user._id,
-          username: user.username,
-          role: user.role,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-        },
-      })
-    );
+  formatResponse(true, "Login successful", {
+    token,
+    user: {
+      id: user._id,
+      username: user.username,
+      role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    },
+  })
+);
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json(formatResponse(false, "Server error during login"));
