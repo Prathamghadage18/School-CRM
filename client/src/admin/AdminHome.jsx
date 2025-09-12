@@ -1,13 +1,86 @@
-import React from "react";
-import { FaUserGraduate, FaChalkboardTeacher, FaUserTie, FaUsers, FaBullhorn, FaChartLine } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import {
+  FaUserGraduate,
+  FaChalkboardTeacher,
+  FaUserTie,
+  FaUsers,
+  FaBullhorn,
+  FaChartLine,
+} from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { selectCurrentUserId } from "../redux/authSlice";
+import {
+  getAllAdmin,
+  getAllPrincipal,
+  getAllStudent,
+  getAllTeacher,
+  getAllUser,
+} from "../config/admin";
 
 const AdminHome = () => {
+  const [users, setUsers] = useState(0);
+  const [students, setStudents] = useState(0);
+  const [teachers, setTeachers] = useState(0);
+  const [principals, setPrincipals] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  const userId = useSelector(selectCurrentUserId);
+
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        try {
+          setLoading(true);
+          const user = await getAllAdmin();
+          setUsers(user?.length || 0);
+
+          const student = await getAllStudent();
+          setStudents(student?.length || 0);
+
+          const teacher = await getAllTeacher();
+          setTeachers(teacher?.length || 0);
+
+          const principal = await getAllPrincipal();
+          setPrincipals(principal?.length || 0);
+        } catch (err) {
+          console.error("Error fetching admin data:", err);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    }
+  }, [userId]);
+
   const stats = [
-    { title: "Total Users", value: 1100, icon: <FaUsers />, color: "bg-orange-100 text-orange-600", link: "/admin/parents" },
-    { title: "Students", value: 1200, icon: <FaUserGraduate />, color: "bg-blue-100 text-blue-600", link: "/admin/students" },
-    { title: "Teachers", value: 85, icon: <FaChalkboardTeacher />, color: "bg-green-100 text-green-600", link: "/admin/teachers" },
-    { title: "Principals", value: 5, icon: <FaUserTie />, color: "bg-purple-100 text-purple-600", link: "/admin/principals" },
+    {
+      title: "Total Admin",
+      value: users,
+      icon: <FaUsers />,
+      color: "bg-orange-100 text-orange-600",
+      link: "/admin/parents",
+    },
+    {
+      title: "Students",
+      value: students,
+      icon: <FaUserGraduate />,
+      color: "bg-blue-100 text-blue-600",
+      link: "/admin/students",
+    },
+    {
+      title: "Teachers",
+      value: teachers,
+      icon: <FaChalkboardTeacher />,
+      color: "bg-green-100 text-green-600",
+      link: "/admin/teachers",
+    },
+    {
+      title: "Principals",
+      value: principals,
+      icon: <FaUserTie />,
+      color: "bg-purple-100 text-purple-600",
+      link: "/admin/principals",
+    },
   ];
 
   return (
@@ -22,7 +95,9 @@ const AdminHome = () => {
             <div className="bg-white shadow-md rounded-xl p-5 flex items-center justify-between hover:shadow-lg transition">
               <div>
                 <h3 className="text-gray-500 text-sm">{item.title}</h3>
-                <p className="text-2xl font-bold">{item.value}</p>
+                <p className="text-2xl font-bold">
+                  {loading ? "..." : item.value}
+                </p>
               </div>
               <div className={`p-3 rounded-full ${item.color} text-xl`}>
                 {item.icon}
@@ -40,7 +115,9 @@ const AdminHome = () => {
             <h3 className="text-lg font-semibold flex items-center gap-2">
               <FaBullhorn /> Send Announcement
             </h3>
-            <p className="text-sm mt-2">Reach all users instantly with important updates.</p>
+            <p className="text-sm mt-2">
+              Reach all users instantly with important updates.
+            </p>
           </div>
         </Link>
 
@@ -50,7 +127,9 @@ const AdminHome = () => {
             <h3 className="text-lg font-semibold flex items-center gap-2">
               <FaChartLine /> Manage Users
             </h3>
-            <p className="text-sm mt-2">Activate, deactivate or update user credentials.</p>
+            <p className="text-sm mt-2">
+              Activate, deactivate or update user credentials.
+            </p>
           </div>
         </Link>
       </div>
