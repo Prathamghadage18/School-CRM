@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/login", login);
 
 // Protected routes
-// router.use(auth);
+router.use(auth);
 router.get("/me", getCurrentUser);
 router.put("/change-password", changePassword);
 

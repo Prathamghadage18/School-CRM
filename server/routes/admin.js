@@ -7,12 +7,13 @@ import {
   resetUserPassword,
   toggleUserStatus,
   getUserStatistics,
+  getUserByRole,
 } from "../controllers/adminController.js";
 
 const router = express.Router();
 
 // All routes require authentication and admin role
-// router.use(auth);
+router.use(auth);
 // router.use(requireRole(["admin"]));
 
 // Create user credentials
@@ -30,4 +31,6 @@ router.patch("/users/:userId/reset-password", resetUserPassword);
 // Deactivate/activate user
 router.patch("/users/:userId/toggle-status", toggleUserStatus);
 
-export default router;
+router.get("/user/:role", getUserByRole);
+
+export default router; 

@@ -27,11 +27,12 @@ const studyMaterialSchema = new mongoose.Schema(
         enum: ["drive", "youtube", "website"],
       },
     },
-    class: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Class",
-      required: true,
-    },
+    // class: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Class",
+    //   required: true,
+    // },
+    class: { type: String, required: true },
     subject: {
       type: String,
       required: true,

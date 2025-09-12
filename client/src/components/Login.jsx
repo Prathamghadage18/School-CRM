@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";  // adjust path if needed
+import {toast} from 'sonner'
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -26,7 +27,8 @@ const Login = () => {
       });
 
       console.log(response.data);
-
+      toast.success(response.data.message);
+      
       dispatch(
         login({
           token: response.data.data.token,
@@ -50,7 +52,7 @@ const Login = () => {
     } catch (err) {
       const errMsg =
         err.response?.data?.message || "Server error. Please try later.";
-      console.error(errMsg);
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { selectCurrentToken } from "../redux/authSlice";
+import api from "../config/api";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const AdminUserManagement = () => {
@@ -12,9 +13,7 @@ const AdminUserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/admin/users`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await api.get("/api/admin/users");
         console.log(response.data.data.users);
         setUsers(response.data.data.users);
       } catch (error) {
@@ -28,13 +27,7 @@ const AdminUserManagement = () => {
   const toggleStatus = async (id) => {
   try {
     
-    const response = await axios.patch(
-      `${BASE_URL}/api/admin/users/${id}/toggle-status`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const response = await api.patch(`/api/admin/users/${id}/toggle-status`,{});
 
     const { isActive } = response.data.data;
 

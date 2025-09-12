@@ -71,4 +71,5 @@ export const selectCurrentToken = (state) => state.auth.token;
 export const isAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectAuthError = (state) => state.auth.error;
 export const selectCurrentUserRole = (state) => state.auth.loggedInUser?.role || null;
-export const selectCurrentUserId = (state) => state.auth.loggedInUser?._id || null;
+export const selectCurrentUserId = (state) => state.auth.loggedInUser?.id || null;
+

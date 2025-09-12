@@ -214,8 +214,8 @@ const HomePage = () => {
       </section>
       
        {/* Features Section */}
-      <section id="features" className=" relative sm:flex flex-row-reverse sm:items-center sm:justify-center z-20  py-20 px-6  bg-bgDarkColor">
-        <div className="absolute w-40 h-40 top-[50px] sm:top-[200px] sm:left-[950px] left-[-50px] animate-spin [animation-duration:10s] rounded-full bg-gradient-to-tr from-primary to-[#00000000] opacity-50"></div>
+      <section id="features" className=" relative lg:flex flex-row-reverse lg:items-center lg:justify-center z-20  py-20 px-6  bg-bgDarkColor">
+        <div className="absolute w-40 h-40 top-[50px] md:top-[200px] md:left-[950px] left-[-50px] animate-spin [animation-duration:10s] rounded-full bg-gradient-to-tr from-primary to-[#00000000] opacity-50"></div>
         <div className=" sm:ml-10">
           <h2 className="text-2xl sm:text-4xl text-white font-bold sm:text-left  mb-4">Core Features</h2>
         <p className=" text-sm text-gray-200 max-w-4xl  sm:text-left mx-auto mb-12">

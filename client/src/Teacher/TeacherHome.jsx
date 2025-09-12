@@ -1,22 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRocket, FaCalendarAlt, FaUpload, FaCheckSquare, FaFileAlt, FaBullhorn } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { getAllStudent, getTeacherClass, getTeacherUploadedMaterials } from "../config/admin";
+import { useSelector } from "react-redux";
+import { selectCurrentUserId } from "../redux/authSlice";
 
 const TeacherHome = () => {
+
+  const [materails, setMaterails] = useState();
+  const [students, setStudents] = useState();
+  const [classes, setClasses] = useState();
+
+  const userId = useSelector(selectCurrentUserId);
+
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        const material = await getTeacherUploadedMaterials();
+        setMaterails(material.length);
+        const student = await getAllStudent();
+        setStudents(student.length);
+        const myclass = await getTeacherClass();
+        setClasses(myclass.length);
+      })();
+    }
+  }, [userId])
+
   return (
     <div className="sm:p-6 space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
         <div className=" bg-[#4267ff] rounded-xl shadow p-4 text-center">
-          <h2 className="text-3xl font-bold text-white text-shadow">3</h2>
+          <h2 className="text-3xl font-bold text-white text-shadow">{classes}</h2>
           <p className="text-white font-semibold">My Classes</p>
         </div>
         <div className="bg-[#3aaa2b] rounded-xl shadow p-4 text-center ">
-          <h2 className="text-3xl font-bold text-white text-shadow">89</h2>
+          <h2 className="text-3xl font-bold text-white text-shadow">{students}</h2>
           <p className="text-white font-semibold">Total Students</p>
         </div>
         <div className="bg-[#8346e5] rounded-xl shadow p-4 text-center">
-          <h2 className="text-3xl font-bold text-white text-shadow">24</h2>
+          <h2 className="text-3xl font-bold text-white text-shadow">{materails}</h2>
           <p className="text-white font-semibold">Materials Shared</p>
         </div>
         <div className="bg-[#e54646] rounded-xl shadow p-4 text-center">

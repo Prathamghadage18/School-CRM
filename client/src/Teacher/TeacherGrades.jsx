@@ -1,10 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { selectCurrentUserId } from "../redux/authSlice";
+import { useSelector } from "react-redux";
+import { getTeacherClass, getTeacherSubject } from "../config/admin";
 
 const TeacherGrades = () => {
   // Dropdown options
   const years = ["2023", "2024", "2025"];
-  const classes = ["10th A", "10th B", "12th Science"];
-  const subjects = ["Math", "English", "Science"];
+
+  // ✅ Loading states
+  const userId = useSelector(selectCurrentUserId);
+  const [subjects, setSubjects] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
+  const [loadingClasses, setLoadingClasses] = useState(false);
+
+  useEffect(() => {
+    if (userId) {
+      (async () => {
+        try {
+          setLoadingSubjects(true);
+          const subject = await getTeacherSubject();
+          setSubjects(subject || []);
+        } finally {
+          setLoadingSubjects(false);
+        }
+
+        try {
+          setLoadingClasses(true);
+          const myclass = await getTeacherClass();
+          setClasses(myclass || []);
+        } finally {
+          setLoadingClasses(false);
+        }
+      })();
+    }
+  }, [userId]);
 
   // Selected filters
   const [selectedYear, setSelectedYear] = useState("");
@@ -57,31 +87,46 @@ const TeacherGrades = () => {
               </option>
             ))}
           </select>
-
-          <select
-            className="border rounded px-3 py-2"
+            <select
+            name="classId"
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
+            className="border rounded px-3 py-2"
+            disabled={loadingClasses}
           >
-            <option value="">Select Class</option>
-            {classes.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
+            {loadingClasses ? (
+              <option>Loading classes...</option>
+            ) : (
+              <>
+                <option value="">Select Class</option>
+                {classes.map((n) => (
+                  <option key={n} value={n}>
+                    class {n}
+                  </option>
+                ))}
+              </>
+            )}
           </select>
 
           <select
-            className="border rounded px-3 py-2"
+            name="subject"
             value={selectedSubject}
-            onChange={(e) => setSelectedSubject(e.target.value)}
+           onChange={(e) => setSelectedSubject(e.target.value)}
+            className="border rounded px-3 py-2"
+            disabled={loadingSubjects}
           >
-            <option value="">Select Subject</option>
-            {subjects.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
+            {loadingSubjects ? (
+              <option>Loading subjects...</option>
+            ) : (
+              <>
+                <option value="">Select Subject</option>
+                {subjects.map((s) => (
+                  <option key={s._id || s.name} value={s.name}>
+                    {s.name}
+                  </option>
+                ))}
+              </>
+            )}
           </select>
         </div>
 

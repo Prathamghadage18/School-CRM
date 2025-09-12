@@ -8,3 +8,7 @@ const store = configureStore({
 })
 
 export default store;
+
+
+
+console.log("Full Redux state:", store.getState());

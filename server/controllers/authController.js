@@ -63,7 +63,7 @@ if (!user) {
 // Get current user
 export const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id);
     res.json(formatResponse(true, "User retrieved successfully", { user }));
   } catch (error) {
     console.error("Get current user error:", error);

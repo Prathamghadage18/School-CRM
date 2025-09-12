@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import {  FaHome,  FaBook,  FaClipboardList,  FaCheckCircle,  FaBars,} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaHome, FaBook, FaClipboardList, FaCheckCircle, FaBars, } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,9 +11,10 @@ import TeacherGrades from "./TeacherGrades";
 import TeacherMaterials from "./TeacherMaterials";
 import TeacherHome from "./TeacherHome";
 import Logo from "../assets/logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { toast } from "sonner";
 import { logout } from "../redux/authSlice";
+
 
 export default function TeacherDashboard() {
   const params = useParams();
@@ -64,9 +65,8 @@ export default function TeacherDashboard() {
             <Link
               key={idx}
               to={item.path}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-semibold transition-all ${
-                item.active ? "bg-primary text-white" : "text-white hover:bg-blue-800"
-              }`}
+              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-semibold transition-all ${item.active ? "bg-primary text-white" : "text-white hover:bg-blue-800"
+                }`}
               title={item.label}
             >
               <span className="text-lg">{item.icon}</span>
@@ -143,9 +143,8 @@ export default function TeacherDashboard() {
                       key={link.label}
                       to={link.path}
                       onClick={() => setIsOpen(false)}
-                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium ${
-                        link.active ? "bg-primary text-white" : "text-gray-200 hover:bg-blue-800"
-                      }`}
+                      className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium ${link.active ? "bg-primary text-white" : "text-gray-200 hover:bg-blue-800"
+                        }`}
                     >
                       <span className="text-lg">{link.icon}</span>
                       <span>{link.label}</span>
@@ -172,9 +171,7 @@ export default function TeacherDashboard() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 ${
-          menuOpen ? "md:ml-64" : "md:ml-16"
-        } p-4 h-screen overflow-y-auto transition-all duration-300`}
+        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} sm:p-4 h-screen overflow-y-auto transition-all duration-300`}
       >
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["teacher"]} />}>

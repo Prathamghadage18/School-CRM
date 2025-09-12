@@ -7,6 +7,7 @@ import {
   FaUserFriends,
   FaBars,
 } from "react-icons/fa";
+
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -14,16 +15,17 @@ import { HiX } from "react-icons/hi";
 import ProtectedRoute from "../config/ProtectedRoute";
 
 import AdminAddUsers from "./AdminAddUser";
-import AdminCredentials from "./AdminCredentials";
 import AdminAnnouncements from "./AdminAnnouncements";
 import AdminUserManagement from "./AdminUserManagement";
 import AdminHome from "./AdminHome";
+import AdminAddSchool from "./AdminAddSchool";
 
 import Logo from "../assets/logo.png"; // replace if needed
 import GradientCircles from "../components/ui/GradientCircles";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
 import { toast } from "sonner";
+
 
 export default function AdminDashboard() {
   const params = useParams();
@@ -37,7 +39,7 @@ export default function AdminDashboard() {
   const NavigationItem = [
     { icon: <FaCalendarAlt />, label: "Dashboard", path: "/admin-dashboard", active: currentPath === "" },
     { icon: <FaUser />, label: "Add Users", path: "/admin-dashboard/add-users", active: currentPath === "add-users" },
-    { icon: <FaCheckCircle />, label: "Credentials", path: "/admin-dashboard/credentials", active: currentPath === "credentials" },
+    { icon: <FaCheckCircle />, label: "Add Schools", path: "/admin-dashboard/add-schools", active: currentPath === "add-schools" },
     { icon: <FaBell />, label: "Announcements", path: "/admin-dashboard/announcements", active: currentPath === "announcements" },
     { icon: <FaUserFriends />, label: "User Management", path: "/admin-dashboard/user-management", active: currentPath === "user-management" },
   ];
@@ -182,13 +184,13 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} p-4 h-screen overflow-y-auto transition-all duration-300`}
+        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} sm:p-4 h-screen overflow-y-auto transition-all duration-300`}
       >
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
             <Route index element={<AdminHome />} />
             <Route path="add-users" element={<AdminAddUsers />} />
-            <Route path="credentials" element={<AdminCredentials />} />
+            <Route path="add-schools" element={<AdminAddSchool />} />
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="user-management" element={<AdminUserManagement />} />
           </Route>

@@ -176,9 +176,7 @@ export default function StudentDashboard() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 ${
-          menuOpen ? "md:ml-64" : "md:ml-16"
-        } p-4 h-screen overflow-y-auto transition-all duration-300`}
+        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} sm:p-4 h-screen overflow-y-auto transition-all duration-300`}
       >
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["student"]} />}>

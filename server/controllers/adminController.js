@@ -666,3 +666,31 @@ export const getUserStatistics = async (req, res) => {
       );
   }
 };
+
+export const getUserByRole = async (req, res) => {
+  try {
+    const { role } = req.params;
+
+    if (!role) {
+      return res
+        .status(400)
+        .json(formatResponse(false, "Role is required"));
+    }
+
+    // Fetch all users with the given role
+    const users = await User.find({ role: role.toLowerCase() });
+
+    if (!users || users.length === 0) {
+      return res
+        .status(404)
+        .json(formatResponse(false, `No users found with role ${role}`));
+    }
+
+    return res.json(formatResponse(true, `${role} users fetched successfully`, users));
+  } catch (error) {
+    console.error("Error fetching users by role:", error);
+    return res
+      .status(500)
+      .json(formatResponse(false, "Error fetching users", error.message));
+  }
+};

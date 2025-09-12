@@ -29,84 +29,60 @@ export const getMyClasses = async (req, res) => {
 // Mark attendance
 export const markAttendance = async (req, res) => {
   try {
-    const { classId, date, period, subject, students } = req.body;
+    const { classId, date, subject, students, period } = req.body; // ✅ include period if needed
     const teacherId = req.user.id;
 
-    // Check if the teacher is authorized for this class
-    const classData = await Class.findOne({
-      _id: classId,
-      $or: [
-        { classTeacher: teacherId },
-        { "subjects.teacher": teacherId, "subjects.name": subject },
-      ],
-    });
-
-    if (!classData) {
+    // Validate classId
+    if (!classId) {
       return res
         .status(403)
-        .json(
-          formatResponse(
-            false,
-            "Not authorized to mark attendance for this class"
-          )
-        );
+        .json(formatResponse(false, "Not authorized to mark attendance for this class"));
     }
 
-    // Check if attendance already exists for this date, class, period, and subject
+    // ✅ Check if attendance already exists (classId + date + subject + period)
     const existingAttendance = await Attendance.findOne({
       class: classId,
       date: new Date(date),
-      period,
       subject,
+      ...(period && { period }), // only check if period exists
     });
 
     if (existingAttendance) {
       return res
         .status(400)
-        .json(
-          formatResponse(
-            false,
-            "Attendance already marked for this class, date, period, and subject"
-          )
-        );
+        .json(formatResponse(false, "Attendance already marked for this class, date, and subject"));
     }
 
-    // Create new attendance record
+    // ✅ Create new attendance record
     const attendance = new Attendance({
       class: classId,
       date: new Date(date),
-      period,
       subject,
       students,
       takenBy: teacherId,
+      ...(period && { period }), // save period only if provided
     });
 
     await attendance.save();
 
-    res
+    return res
       .status(201)
-      .json(
-        formatResponse(true, "Attendance marked successfully", { attendance })
-      );
+      .json(formatResponse(true, "Attendance marked successfully", { attendance }));
   } catch (error) {
     console.error("Error marking attendance:", error);
 
     if (error.code === 11000) {
       return res
         .status(400)
-        .json(
-          formatResponse(
-            false,
-            "Attendance already exists for this combination"
-          )
-        );
+        .json(formatResponse(false, "Attendance already exists for this combination"));
     }
 
-    res
+    return res
       .status(500)
       .json(formatResponse(false, "Error marking attendance", error.message));
   }
 };
+
 
 // Get attendance records
 export const getAttendance = async (req, res) => {
@@ -317,21 +293,21 @@ export const uploadStudyMaterial = async (req, res) => {
     const teacherId = req.user.id;
 
     // Check if the teacher is authorized for this class
-    const classData = await Class.findOne({
-      _id: classId,
-      $or: [{ classTeacher: teacherId }, { "subjects.teacher": teacherId }],
-    });
+    // const classData = await Class.findOne({
+    //   _id: classId,
+    //   $or: [{ classTeacher: teacherId }, { "subjects.teacher": teacherId }],
+    // });
 
-    if (!classData) {
-      return res
-        .status(403)
-        .json(
-          formatResponse(
-            false,
-            "Not authorized to upload materials for this class"
-          )
-        );
-    }
+    // if (!classData) {
+    //   return res
+    //     .status(403)
+    //     .json(
+    //       formatResponse(
+    //         false,
+    //         "Not authorized to upload materials for this class"
+    //       )
+    //     );
+    // }
 
     let type = "document";
     let fileData = null;
@@ -392,6 +368,20 @@ export const uploadStudyMaterial = async (req, res) => {
       );
   }
 };
+
+// GET /api/study-materials/:id
+export const getStudyMaterialsById = async (req, res) => {
+  try {
+    // use uploadedBy instead of teacher
+    const materials = await StudyMaterial.find({ uploadedBy: req.user.id });
+    res.json({ success: true, data: materials });
+  } catch (error) {
+    console.error("Error fetching materials:", error);
+    res.status(500).json({ success: false, message: "Error fetching materials" });
+  }
+};
+
+
 
 // Get study materials
 export const getStudyMaterials = async (req, res) => {

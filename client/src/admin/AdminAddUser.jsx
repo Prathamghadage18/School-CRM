@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
 import { selectCurrentToken } from "../redux/authSlice";
+import api from "../config/api";
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 
@@ -106,9 +107,7 @@ const AdminAddUsers = () => {
     const token = "YOUR_TOKEN_HERE"; // Replace with real token
 
     await toast.promise(
-      axios.post(`${BASE_URL}/api/admin/users`, newUser, {
-        headers: { Authorization: `Bearer ${token}` },
-      }),
+      api.post("/api/admin/users",newUser),
       {
         loading: "Creating user...",
         success: (res) => {
