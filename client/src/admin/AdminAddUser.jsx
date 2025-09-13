@@ -10,6 +10,9 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 const AdminAddUsers = () => {
 
   const token = useSelector(selectCurrentToken);
+  // Example: you can fetch this list from API later
+  const schools = ["School A", "School B", "School C"];
+
 
   const [form, setForm] = useState({
     firstName: "",
@@ -107,7 +110,7 @@ const AdminAddUsers = () => {
     const token = "YOUR_TOKEN_HERE"; // Replace with real token
 
     await toast.promise(
-      api.post("/api/admin/users",newUser),
+      api.post("/api/admin/users", newUser),
       {
         loading: "Creating user...",
         success: (res) => {
@@ -137,216 +140,230 @@ const AdminAddUsers = () => {
 
   return (
     <div className="p-6 bg-white shadow-md max-w-4xl m-auto">
-      <h2 className="text-2xl font-bold mb-4 text-center">Add New User</h2>
+      <h2 className="text-2xl font-bold mb-4 ">Add New User</h2>
 
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        {/* Common Fields */}
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          value={form.firstName}
-          onChange={handleChange}
-          className="w-full border p-2"
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          value={form.lastName}
-          onChange={handleChange}
-          className="w-full border p-2"
-        />
         <select
-          name="role"
-          value={form.role}
-          onChange={handleChange}
-          className="w-full border p-2"
-          required
+          // value={school}
+          // onChange={(e) => setSchool(e.target.value)}
+          className="w-full border px-4 py-2 mb-4 bg-primary/80 text-white rounded-full font-semibold outline-none"
         >
-          <option value="">Select Role</option>
-          <option value="principal">Principal</option>
-          <option value="teacher">Teacher</option>
-          <option value="student">Student</option>
-          <option value="admin">Admin</option>
+          <option value="">Select School</option> 
+          {schools.map((sch, i) => (
+            <option key={i} value={sch} className=" bg-white text-black">
+              {sch}
+            </option>
+          ))}
         </select>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={form.username}
-          onChange={handleChange}
-          className="w-full border p-2"
-          required
-        />
-        {(form.role === "teacher" ||
-          form.role === "principal" ||
-          form.role === "student" ||
-          form.role === "parent") && (
-            <input
-              type="text"
-              name="id"
-              placeholder={
-                form.role === "teacher" || form.role === "principal"
-                  ? "Employee ID"
-                  : "Register Number"
-              }
-              value={form.id}
-              onChange={handleChange}
-              className="w-full border p-2 col-span-2 md:col-span-1"
-              required
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Common Fields */}
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={form.firstName}
+            onChange={handleChange}
+            className="w-full border p-2"
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={form.lastName}
+            onChange={handleChange}
+            className="w-full border p-2"
+          />
+          <select
+            name="role"
+            value={form.role}
+            onChange={handleChange}
+            className="w-full border p-2"
+            required
+          >
+            <option value="">Select Role</option>
+            <option value="principal">Principal</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+            <option value="admin">Admin</option>
+          </select>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={form.username}
+            onChange={handleChange}
+            className="w-full border p-2"
+            required
+          />
+          {(form.role === "teacher" ||
+            form.role === "principal" ||
+            form.role === "student" ||
+            form.role === "parent") && (
+              <input
+                type="text"
+                name="id"
+                placeholder={
+                  form.role === "teacher" || form.role === "principal"
+                    ? "Employee ID"
+                    : "Register Number"
+                }
+                value={form.id}
+                onChange={handleChange}
+                className="w-full border p-2 col-span-2 md:col-span-1"
+                required
+              />
+            )}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            className="w-full border p-2"
+            required
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            value={form.phone}
+            onChange={handleChange}
+            className="w-full border p-2"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            className="w-full border p-2"
+            required
+          />
+          <select
+            name="status"
+            value={form.status}
+            onChange={handleChange}
+            className="w-full border p-2"
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+
+          {/* Student Fields */}
+          {form.role === "student" && (
+            <div className="col-span-2">
+              <h3 className="font-semibold mb-2">Student Details</h3>
+              <select
+                name="studentClass"
+                value={form.studentClass}
+                onChange={handleChange}
+                className="w-full border p-2 mb-2"
+                required
+              >
+                <option value="">Select class</option>
+                {[...Array(12).keys()].map((n) => (
+                  <option key={n + 1} value={n + 1}>
+                    {n + 1}th
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                name="year"
+                placeholder="Year"
+                value={form.year}
+                onChange={handleChange}
+                className="w-full border p-2 mb-2"
+              />
+            </div>
           )}
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full border p-2"
-          required
-        />
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={form.phone}
-          onChange={handleChange}
-          className="w-full border p-2"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full border p-2"
-          required
-        />
-        <select
-          name="status"
-          value={form.status}
-          onChange={handleChange}
-          className="w-full border p-2"
-        >
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
 
-        {/* Student Fields */}
-        {form.role === "student" && (
-          <div className="col-span-2">
-            <h3 className="font-semibold mb-2">Student Details</h3>
-            <select
-              name="studentClass"
-              value={form.studentClass}
-              onChange={handleChange}
-              className="w-full border p-2 mb-2"
-              required
-            >
-              <option value="">Select class</option>
-              {[...Array(12).keys()].map((n) => (
-                <option key={n + 1} value={n + 1}>
-                  {n + 1}th
-                </option>
+          {/* Teacher Fields */}
+          {form.role === "teacher" && (
+            <div className="col-span-2">
+              <select
+                name="studentClass"
+                value={form.studentClass}
+                onChange={handleChange}
+                className="w-full border p-2 mb-2"
+                required
+              >
+                <option value="">Select class</option>
+                {[...Array(12).keys()].map((n) => (
+                  <option key={n + 1} value={n + 1}>
+                    {n + 1}th
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                name="year"
+                placeholder="Year"
+                value={form.year}
+                onChange={handleChange}
+                className="w-full border p-2 mb-2"
+              />
+
+              <h3 className="font-semibold mb-2">Teacher Subjects & Times</h3>
+              {form.teacherSubjects.map((item, index) => (
+                <div key={index} className="flex gap-2 mb-2">
+                  {/* Subject dropdown */}
+                  <select
+                    name="subject"
+                    value={item.subject}
+                    onChange={(e) => handleTeacherSubjectChange(index, e)}
+                    className="w-1/2 border p-2"
+                  >
+                    <option value="">Select Subject</option>
+                    <option value="mathematics">Math</option>
+                    <option value="science">Science</option>
+                    <option value="history">History</option>
+                    <option value="english">English</option>
+                    <option value="geography">Geography</option>
+                  </select>
+
+                  {/* Time input */}
+                  <input
+                    type="text"
+                    name="time"
+                    placeholder="Teaching Time"
+                    value={item.time}
+                    onChange={(e) => handleTeacherSubjectChange(index, e)}
+                    className="w-1/2 border p-2"
+                  />
+
+                  {/* Remove button */}
+                  <button
+                    type="button"
+                    onClick={() => removeTeacherSubject(index)}
+                    className="px-2 bg-red-500 text-white"
+                  >
+                    ✕
+                  </button>
+                </div>
               ))}
-            </select>
-            <input
-              type="number"
-              name="year"
-              placeholder="Year"
-              value={form.year}
-              onChange={handleChange}
-              className="w-full border p-2 mb-2"
-            />
-          </div>
-        )}
 
-        {/* Teacher Fields */}
-        {form.role === "teacher" && (
-          <div className="col-span-2">
-            <select
-              name="studentClass"
-              value={form.studentClass}
-              onChange={handleChange}
-              className="w-full border p-2 mb-2"
-              required
-            >
-              <option value="">Select class</option>
-              {[...Array(12).keys()].map((n) => (
-                <option key={n + 1} value={n + 1}>
-                  {n + 1}th
-                </option>
-              ))}
-            </select>
-            <input
-              type="number"
-              name="year"
-              placeholder="Year"
-              value={form.year}
-              onChange={handleChange}
-              className="w-full border p-2 mb-2"
-            />
+              {/* Add subject button */}
+              <button
+                type="button"
+                onClick={addTeacherSubject}
+                className="mt-2 px-3 py-1 bg-green-600 text-white"
+              >
+                + Add Subject
+              </button>
+            </div>
+          )}
 
-            <h3 className="font-semibold mb-2">Teacher Subjects & Times</h3>
-            {form.teacherSubjects.map((item, index) => (
-              <div key={index} className="flex gap-2 mb-2">
-                {/* Subject dropdown */}
-                <select
-                  name="subject"
-                  value={item.subject}
-                  onChange={(e) => handleTeacherSubjectChange(index, e)}
-                  className="w-1/2 border p-2"
-                >
-                  <option value="">Select Subject</option>
-                  <option value="mathematics">Math</option>
-                  <option value="science">Science</option>
-                  <option value="history">History</option>
-                  <option value="english">English</option>
-                  <option value="geography">Geography</option>
-                </select>
-
-                {/* Time input */}
-                <input
-                  type="text"
-                  name="time"
-                  placeholder="Teaching Time"
-                  value={item.time}
-                  onChange={(e) => handleTeacherSubjectChange(index, e)}
-                  className="w-1/2 border p-2"
-                />
-
-                {/* Remove button */}
-                <button
-                  type="button"
-                  onClick={() => removeTeacherSubject(index)}
-                  className="px-2 bg-red-500 text-white"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-
-            {/* Add subject button */}
-            <button
-              type="button"
-              onClick={addTeacherSubject}
-              className="mt-2 px-3 py-1 bg-green-600 text-white"
-            >
-              + Add Subject
+          {/* Submit button */}
+          <div className="col-span-1 md:col-span-2">
+            <button type="submit" className="w-full bg-primary text-white font-semibold rounded-md py-2">
+              Create User
             </button>
           </div>
-        )}
 
-        {/* Submit button */}
-        <div className="col-span-1 md:col-span-2">
-          <button type="submit" className="w-full bg-primary text-white py-2">
-            Create User
-          </button>
         </div>
       </form>
     </div>

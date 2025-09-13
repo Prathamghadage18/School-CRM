@@ -42,6 +42,20 @@ const AdminAnnouncements = () => {
         <FaBullhorn className="text-blue-600" /> Send Announcement
       </h2>
 
+      {/* Select School */}
+        <select
+          value={school}
+          onChange={(e) => setSchool(e.target.value)}
+         className="w-full border px-4 py-2 mb-4 bg-primary/80 text-white rounded-full font-semibold outline-none"
+        >
+          <option value="">Select School</option> 
+          {schools.map((sch, i) => (
+            <option key={i} value={sch} className=" bg-white text-black">
+              {sch}
+            </option>
+          ))}
+        </select>
+
       <div className="bg-white shadow-md rounded-lg p-6 space-y-4">
         {/* Title */}
         <input
@@ -60,20 +74,6 @@ const AdminAnnouncements = () => {
           rows={4}
           className="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
         />
-
-        {/* Select School */}
-        <select
-          value={school}
-          onChange={(e) => setSchool(e.target.value)}
-          className="w-full border rounded px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-        >
-          <option value="">Select School</option>
-          {schools.map((sch, i) => (
-            <option key={i} value={sch}>
-              {sch}
-            </option>
-          ))}
-        </select>
 
         {/* File Upload */}
         <div>
