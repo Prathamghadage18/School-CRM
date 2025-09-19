@@ -13,6 +13,7 @@ import userRoutes from "./routes/users.js";
 import teacherRoutes from "./routes/teacher.js";
 import principalRoutes from "./routes/principal.js";
 import parentRoutes from "./routes/parent.js";
+import noticeRoutes from "./routes/notice.js";
 
 
 // Middleware
@@ -70,6 +71,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/principal", principalRoutes);
 app.use("/api/parent", parentRoutes);
+app.use("/api/notice", noticeRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {

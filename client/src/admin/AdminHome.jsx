@@ -27,6 +27,9 @@ const AdminHome = () => {
 
   const userId = useSelector(selectCurrentUserId);
 
+  console.log('render home')
+
+
   useEffect(() => {
     if (userId) {
       (async () => {
@@ -159,5 +162,4 @@ const AdminHome = () => {
     </div>
   );
 };
-
-export default AdminHome;
+export default React.memo(AdminHome);

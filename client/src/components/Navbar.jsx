@@ -42,7 +42,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-1 cursor-pointer">
-              <img
+              <img fetchPriority="high" loading="eager" 
                 src={Logo}
                 alt="logo"
                 className="w-12 h-12 object-contain scale-130 transition-transform duration-300 hover:rotate-12"
@@ -119,7 +119,7 @@ const Navbar = () => {
             >
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-2">
-                  <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
+                  <img fetchPriority="high" loading="eager"  src={Logo} alt="logo" className="w-10 h-10 object-contain" />
                   <span className="text-xl font-bold text-white uppercase">Scout Team</span>
                 </div>
                 <button

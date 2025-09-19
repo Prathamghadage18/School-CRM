@@ -59,7 +59,7 @@ const ImageSlider = ({ slideImages, autoPlay = true, interval = 8000 }) => {
       >
         {slideImages.map((ele, index) => (
           <div key={index} className="w-full h-full flex-shrink-0 relative">
-            <img
+            <img fetchPriority="high" loading="eager" 
               src={ele.img}
               alt={ele.title}
               className="object-cover brightness-50 w-full h-full"

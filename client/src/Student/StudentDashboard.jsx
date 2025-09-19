@@ -53,7 +53,7 @@ export default function StudentDashboard() {
         <div className="flex items-center justify-between px-4 py-3">
           <Link to="/">
             <div className="font-bold text-xl text-white flex gap-1 items-center">
-              <img src={Logo} alt="" className="w-10" />
+              <img fetchPriority="high" loading="eager"  src={Logo} alt="" className="w-10" />
               {menuOpen ? "Scout Team" : ""}
             </div>
           </Link>
@@ -94,7 +94,7 @@ export default function StudentDashboard() {
       {/* Mobile Header */}
       <div className="flex md:hidden items-center justify-between px-4 py-3 bg-[#0b0d7496] shadow-lg sticky top-0 z-30">
         <div className="flex items-center gap-2">
-          <img src={Logo} alt="logo" className="w-8 h-8 object-contain" />
+          <img fetchPriority="high" loading="eager"  src={Logo} alt="logo" className="w-8 h-8 object-contain" />
           <span className="text-lg font-bold text-white">Scout Team</span>
         </div>
         <button
@@ -129,7 +129,7 @@ export default function StudentDashboard() {
             >
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-2">
-                  <img src={Logo} alt="logo" className="w-10 h-10 object-contain" />
+                  <img fetchPriority="high" loading="eager"  src={Logo} alt="logo" className="w-10 h-10 object-contain" />
                   <span className="text-xl font-bold text-white">Scout Team</span>
                 </div>
                 <button

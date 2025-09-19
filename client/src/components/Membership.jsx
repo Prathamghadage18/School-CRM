@@ -55,7 +55,7 @@ const Membership = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-bgDarkColor relative z-50 flex flex-col items-center py-40 px-4">
+    <div className="min-h-screen bg-bgDarkColor relative z-20 flex flex-col items-center py-40 px-4">
       <div className="absolute w-40 h-40 top-[130px] sm:left-[400px] left-[-50px] animate-spin [animation-duration:10s] rounded-full bg-gradient-to-tr from-primary to-[#00000000] opacity-50"></div>
       <h1 className="text-2xl sm:text-4xl font-bold text-white mb-4">
         Choose Your Membership Plan
@@ -66,7 +66,7 @@ const Membership = () => {
         reporting.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full mt-14">
         {plans.map((plan) => (
           <div
             key={plan.id}

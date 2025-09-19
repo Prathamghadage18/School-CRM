@@ -58,7 +58,7 @@ const Footer = () => {
             {/* Company info */}
             <div>
               <div className="flex items-center gap-1 mb-1">
-                <img src={Logo} alt="Logo" className="h-10 w-auto object-contain" />
+                <img fetchPriority="high" loading="eager"  src={Logo} alt="Logo" className="h-10 w-auto object-contain" />
                 <span className="text-2xl font-bold ">Scout Team</span>
               </div>
               <p className=" text-sm text-gray-200 mb-6 text-justify">

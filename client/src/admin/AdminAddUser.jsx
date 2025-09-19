@@ -1,18 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "sonner";
-import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../redux/authSlice";
 import api from "../config/api";
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
 
 const AdminAddUsers = () => {
 
-  const token = useSelector(selectCurrentToken);
-  // Example: you can fetch this list from API later
-  const schools = ["School A", "School B", "School C"];
-
+console.log('render add user')
 
   const [form, setForm] = useState({
     firstName: "",
@@ -145,18 +137,7 @@ const AdminAddUsers = () => {
       <form
         onSubmit={handleSubmit}
       >
-        <select
-          // value={school}
-          // onChange={(e) => setSchool(e.target.value)}
-          className="w-full border px-4 py-2 mb-4 bg-primary/80 text-white rounded-full font-semibold outline-none"
-        >
-          <option value="">Select School</option> 
-          {schools.map((sch, i) => (
-            <option key={i} value={sch} className=" bg-white text-black">
-              {sch}
-            </option>
-          ))}
-        </select>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Common Fields */}
           <input
@@ -370,4 +351,4 @@ const AdminAddUsers = () => {
   );
 };
 
-export default AdminAddUsers;
+export default React.memo(AdminAddUsers);

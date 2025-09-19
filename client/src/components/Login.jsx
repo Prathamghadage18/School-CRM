@@ -52,7 +52,8 @@ const Login = () => {
     } catch (err) {
       const errMsg =
         err.response?.data?.message || "Server error. Please try later.";
-      toast.error(err.response.data.message);
+      toast.error(errMsg);
+      console.log(err.response.data)
     } finally {
       setLoading(false);
     }

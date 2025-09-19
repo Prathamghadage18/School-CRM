@@ -12,26 +12,21 @@ const noticeSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["general", "academic", "event", "emergency"],
+      enum: ["general", "academic", "event", "emergency",'exam'],
       default: "general",
-    },
-    priority: {
-      type: String,
-      enum: ["low", "medium", "high"],
-      default: "medium",
     },
     attachment: {
       filename: String,
       path: String,
       originalName: String,
     },
-    targetAudience: [
-      {
+    link: {
+      url: String,
+      type: {
         type: String,
-        enum: ["all", "teachers", "parents", "students"],
-        default: "all",
+        enum: ["drive", "youtube", "website"],
       },
-    ],
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -10,6 +10,8 @@ const AdminAddSchool = () => {
     email: "",
   });
 
+  console.log("add school render");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSchool((prev) => ({ ...prev, [name]: value }));
@@ -99,4 +101,4 @@ const AdminAddSchool = () => {
     </div>
   );
 };
-export default AdminAddSchool;
+export default React.memo(AdminAddSchool);

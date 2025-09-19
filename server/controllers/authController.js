@@ -60,14 +60,42 @@ if (!user) {
   }
 };
 
-// Get current user
-export const getCurrentUser = async (req, res) => {
+// Get user profile by ID
+export const getUserProfileById = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
-    res.json(formatResponse(true, "User retrieved successfully", { user }));
+    const { user_id } = req.params; // extract user_id from URL
+
+    // Fetch user by ID
+    const user = await User.findById(user_id);
+
+    if (!user) {
+      return res.status(404).json(formatResponse(false, "User not found"));
+    }
+
+    res.json(formatResponse(true, "User profile retrieved successfully", { user }));
   } catch (error) {
-    console.error("Get current user error:", error);
-    res.status(500).json(formatResponse(false, "Server error retrieving user"));
+    console.error("Get user profile by ID error:", error);
+    res.status(500).json(formatResponse(false, "Server error retrieving user profile"));
+  }
+};
+
+// update user profile
+export const updateUserProfileById = async (req, res) => {
+  try {
+    const { user_id } = req.params;
+    const updatedUser = await User.findByIdAndUpdate(user_id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json(formatResponse(false, "User not found"));
+    }
+
+    res.json(formatResponse(true, "User updated successfully", { user: updatedUser }));
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(500).json(formatResponse(false, "Server error updating user"));
   }
 };
 

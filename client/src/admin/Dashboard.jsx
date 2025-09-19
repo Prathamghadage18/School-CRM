@@ -25,13 +25,17 @@ import GradientCircles from "../components/ui/GradientCircles";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
 import { toast } from "sonner";
+import UserProfile from "./UserProfile";
+import Announcement from "../components/ui/Announcement";
 
 
-export default function AdminDashboard() {
+const AdminDashboard = () =>{
   const params = useParams();
   const currentPath = params["*"];
   const [menuOpen, setMenuOpen] = useState(true); // desktop sidebar
   const [isOpen, setIsOpen] = useState(false); // mobile sidebar
+
+  console.log('dashboard')
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,9 +43,10 @@ export default function AdminDashboard() {
   const NavigationItem = [
     { icon: <FaCalendarAlt />, label: "Dashboard", path: "/admin-dashboard", active: currentPath === "" },
     { icon: <FaUser />, label: "Add Users", path: "/admin-dashboard/add-users", active: currentPath === "add-users" },
-    { icon: <FaCheckCircle />, label: "Add Schools", path: "/admin-dashboard/add-schools", active: currentPath === "add-schools" },
     { icon: <FaBell />, label: "Announcements", path: "/admin-dashboard/announcements", active: currentPath === "announcements" },
     { icon: <FaUserFriends />, label: "User Management", path: "/admin-dashboard/user-management", active: currentPath === "user-management" },
+    { icon: <FaCheckCircle />, label: "Check Query", path: "/admin-dashboard/add-schools", active: currentPath === "add-schools" },
+
   ];
 
   const handleLogout = () => {
@@ -61,7 +66,7 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between px-4 py-3">
           <Link to="/">
             <div className="font-bold text-lg text-white flex gap-2 items-center">
-              <img src={Logo} alt="Logo" className="w-8" />
+              <img fetchPriority="high" loading="eager"  src={Logo} alt="Logo" className="w-8" />
               {menuOpen ? "CRM Admin" : ""}
             </div>
           </Link>
@@ -102,7 +107,7 @@ export default function AdminDashboard() {
       {/* Mobile Header */}
       <div className="flex md:hidden items-center justify-between px-4 py-3 bg-[#0b0d7496] shadow-lg sticky top-0 z-30">
         <div className="flex items-center gap-2">
-          <img src={Logo} alt="logo" className="w-8 h-8 object-contain" />
+          <img fetchPriority="high" loading="eager"  src={Logo} alt="logo" className="w-8 h-8 object-contain" />
           <span className="text-lg font-bold text-white">Admin Panel</span>
         </div>
         <button
@@ -137,7 +142,7 @@ export default function AdminDashboard() {
             >
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <div className="flex items-center gap-2">
-                  <img src={Logo} alt="logo" className="w-8 h-8" />
+                  <img fetchPriority="high" loading="eager"  src={Logo} alt="logo" className="w-8 h-8" />
                   <span className="text-xl font-bold text-white">Admin Panel</span>
                 </div>
                 <button
@@ -184,8 +189,10 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} sm:p-4 h-screen overflow-y-auto transition-all duration-300`}
+        className={`flex-1 ${menuOpen ? "md:ml-64" : "md:ml-16"} h-screen overflow-y-auto transition-all duration-300`}
       >
+       <Announcement />
+       
         <Routes>
           <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
             <Route index element={<AdminHome />} />
@@ -193,9 +200,12 @@ export default function AdminDashboard() {
             <Route path="add-schools" element={<AdminAddSchool />} />
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="user-management" element={<AdminUserManagement />} />
+            <Route path="user-management/:user_id" element={<UserProfile />} />
           </Route>
         </Routes>
       </main>
     </div>
   );
 }
+
+export default React.memo(AdminDashboard)
